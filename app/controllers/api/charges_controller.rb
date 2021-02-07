@@ -30,6 +30,7 @@ module Api
         @charge = booking.charges.new({
           checkout_session_id: session.id,
           currency: 'usd',
+          payment_intent: session.payment_intent,
           amount: amount
         })
   
@@ -37,6 +38,35 @@ module Api
           render 'api/charges/create', status: :created
         else
           render json: { error: 'charge could not be created' }, status: :bad_request
+        end
+      end
+
+      def refund
+        token = cookies.signed[:airbnb_session_token]
+        session = Session.find_by(token: token)
+        return render json: { error: 'user not logged in' }, status: :unauthorized if !session
+  
+        booking = Booking.find_by(id: params[:booking_id])
+        return render json: { error: 'cannot find booking' }, status: :not_found if !booking
+
+        property = booking.property
+        days_booked = (booking.end_date - booking.start_date).to_i
+        amount = days_booked * property.price_per_night
+
+        refund = Stripe::Refund.create({
+          payment_intent: booking.charges.payment_intent
+          amount: booking.charges.amount
+        })
+
+        if refund
+          render json: {
+            success: true,
+            status: :ok,
+          }
+        else 
+          render json: {
+            success: false 
+          }
         end
       end
 
@@ -77,5 +107,37 @@ module Api
   
         return head :bad_request
       end
+
+    def get_user_charges
+      token = cookies.signed[:airbnb_session_token]
+      session = Session.find_by(token: token)
+      return render json: { error: 'user not logged in' }, status: :unauthorized if !session
+
+      user = session.user 
+      @charges = user.charges.all 
+
+      return render json: { error: 'No charges for user' }, status: :not_found if not @charges
+      render 'api/charges/index'        
+    end
+
+    def get_charge
+      token = cookies.signed[:airbnb_session_token]
+      session = Session.find_by(token: token)
+      return render json: { error: 'user not logged in' }, status: :unauthorized if !session
+
+      user = session.user 
+
+      @charge = Charge.find_by(booking_id: params[:booking_id])
+      return render json: { error: 'No charge for booking ID' }, status: :not_found if not @charge
+
+      if @charge.user == session.user 
+        render 'api/charges/show'        
+      else 
+        render json: {
+          success: false 
+        }
+      end
+    end
+
     end
   end

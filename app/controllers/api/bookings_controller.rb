@@ -15,6 +15,38 @@ module Api
           render json: { error: e.message }, status: :bad_request
         end
       end
+
+      def update
+        token = cookies.signed[:airbnb_session_token]
+        session = Session.find_by(token: token)
+        return render json: { success: false } unless session
+
+        user = session.user
+        @booking = user.bookings.find_by(id: params[:id])
+        return render json: { error: 'cannot find booking' }, status: :not_found if not @booking
+        return render 'bad_request', status: :bad_request if not @booking.update(booking_params)
+        render 'api/bookings/show'
+      end
+
+      def destroy 
+        token = cookies.signed[:airbnb_session_token]
+        session = Session.find_by(token: token)
+        return render json: { success: false } unless session
+        
+        user = session.user
+        booking = Booking.find_by(id: params[:id])
+
+        if booking and booking.user == user and booking.destroy
+          render json: {
+            success: true,
+            status: :ok,
+          }
+        else 
+          render json: {
+            success: false 
+          }
+        end
+      end
   
       def get_property_bookings
         property = Property.find_by(id: params[:id])
@@ -22,6 +54,42 @@ module Api
   
         @bookings = property.bookings.where("end_date > ? ", Date.today)
         render 'api/bookings/index'
+      end
+
+      def get_user_bookings
+        token = cookies.signed[:airbnb_session_token]
+        session = Session.find_by(token: token)
+        return render json: { success: false } unless session
+        
+        user = session.user
+############
+        if params[:user_id] == user.user_id
+          @bookings = user.bookings.all
+          render 'api/bookings/index'
+        else 
+          render json: {
+            success: false 
+          }
+        end
+#################      
+      end 
+
+      def get_booking
+        token = cookies.signed[:airbnb_session_token]
+        session = Session.find_by(token: token)
+        return render json: { success: false } unless session
+
+        user = session.user
+        
+        if params[:user_id] == user.user_id
+          @booking = user.bookings.find_by(id: params[:id])
+          return render json: { error: 'cannot find booking' }, status: :not_found if not @booking
+          render 'api/bookings/show'
+        else 
+          render json: {
+            success: false 
+          }
+        end   
       end
   
       private
