@@ -10,6 +10,17 @@ module Api
       end
     end
 
+    def show 
+      token = cookies.signed[:airbnb_session_token]
+      session = Session.find_by(token: token)
+      return render json: { success: false } unless session
+
+      @user = session.user
+  
+      return render 'bad_request', status: :bad_request if not @user
+      render 'api/users/show', status: :ok
+    end
+
     def update 
       token = cookies.signed[:airbnb_session_token]
       session = Session.find_by(token: token)
@@ -17,7 +28,7 @@ module Api
 
       user = session.user
   
-      return render 'bad_request', status: :bad_request if not @property.update(user_params)
+      return render 'bad_request', status: :bad_request if not user.update(user_params)
       render 'api/users/show', status: :ok
     end
 

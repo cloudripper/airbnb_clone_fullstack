@@ -1,6 +1,6 @@
 class StaticPagesController < ApplicationController
-  def home
-    render 'home'
+  def app
+    render 'app'
   end
 
   def property

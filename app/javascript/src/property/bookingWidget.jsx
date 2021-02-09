@@ -3,6 +3,7 @@ import React from 'react';
 import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import { safeCredentials, handleErrors } from '@utils/fetchHelper';
+import { Link } from 'react-router-dom';
 
 import 'react-dates/lib/css/_datepicker.css';
 
@@ -97,7 +98,7 @@ class BookingWidget extends React.Component {
     if (!authenticated) {
       return (
         <div className="border p-4 mb-4">
-          Please <a href={`/login?redirect_url=${window.location.pathname}`}>log in</a> to make a booking.
+          Please <Link to={`/login?redirect_url=${window.location.pathname}`}>log in</Link> to make a booking.
         </div>
       );
     };

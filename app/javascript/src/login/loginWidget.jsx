@@ -1,13 +1,18 @@
 // loginWidget.jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 import { safeCredentials, handleErrors } from '@utils/fetchHelper';
 
+
 class LoginWidget extends React.Component {
-  state = {
-    email: '',
-    password: '',
-    error: '',
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+      error: '',
+    }
   }
 
   handleChange = (e) => {
@@ -57,7 +62,7 @@ class LoginWidget extends React.Component {
           {error && <p className="text-danger mt-2">{error}</p>}
         </form>
         <hr/>
-        <p className="mb-0">Don't have an account? <a className="text-primary" onClick={this.props.toggle}>Sign up</a></p>
+        <p className="mb-0">Don't have an account? <Link to="/sign-up" className="text-primary">Sign Up</Link></p>
       </React.Fragment>
     )
   }

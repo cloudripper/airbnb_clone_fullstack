@@ -1,14 +1,14 @@
-// signupWidget.jsx
+// loginWidget.jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import { safeCredentials, handleErrors } from '@utils/fetchHelper';
 
-class SignupWidget extends React.Component {
+
+class LogoutWidget extends React.Component {
   state = {
     email: '',
     password: '',
-    username: '',
     error: '',
   }
 
@@ -16,35 +16,6 @@ class SignupWidget extends React.Component {
     this.setState({
       [e.target.name]: e.target.value,
     })
-  }
-
-  signup = (e) => {
-    if (e) { e.preventDefault(); }
-    this.setState({
-      error: '',
-    });
-
-    fetch('/api/users', safeCredentials({
-      method: 'POST',
-      body: JSON.stringify({
-        user: {
-          email: this.state.email,
-          password: this.state.password,
-          username: this.state.username,
-        }
-      })
-    }))
-      .then(handleErrors)
-      .then(data => {
-        if (data.user) {
-          this.login();
-        }
-      })
-      .catch(error => {
-        this.setState({
-          error: 'Could not sign up.',
-        })
-      })
   }
 
   login = (e) => {
@@ -78,20 +49,20 @@ class SignupWidget extends React.Component {
   }
 
   render () {
-    const { email, password, username, error } = this.state;
+    const { email, password, error } = this.state;
     return (
       <React.Fragment>
-        <form onSubmit={this.signup}>
-          <input name="username" type="text" className="form-control form-control-lg mb-3" placeholder="Username" value={username} onChange={this.handleChange} required />
+        <form onSubmit={this.login}>
           <input name="email" type="text" className="form-control form-control-lg mb-3" placeholder="Email" value={email} onChange={this.handleChange} required />
           <input name="password" type="password" className="form-control form-control-lg mb-3" placeholder="Password" value={password} onChange={this.handleChange} required />
-          <button type="submit" className="btn btn-danger btn-block btn-lg">Sign up</button>
+          <button type="submit" className="btn btn-danger btn-block btn-lg">Log in</button>
+          {error && <p className="text-danger mt-2">{error}</p>}
         </form>
         <hr/>
-        <p className="mb-0">Already have an account? <Link to="/login" className="text-primary">Log in</Link></p>
+        <p className="mb-0">Don't have an account? <Link to="/sign-up" className="text-primary">Sign Up</Link></p>
       </React.Fragment>
     )
   }
 }
 
-export default SignupWidget
+export default LogoutWidget

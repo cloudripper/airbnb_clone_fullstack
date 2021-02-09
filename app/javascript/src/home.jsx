@@ -6,7 +6,7 @@ import { handleErrors } from '@utils/fetchHelper';
 
 import './home.scss';
 
-class Home extends React.Component {
+export class Home extends React.Component {
   state = {
     properties: [],
     total_pages: null,
@@ -47,7 +47,6 @@ class Home extends React.Component {
   render () {
     const { properties, next_page, loading } = this.state;
     return (
-      <Layout>
         <div className="container pt-4">
           <h4 className="mb-1">Top-rated places to stay</h4>
           <p className="text-secondary mb-3">Explore some of the best-reviewed stays in the world</p>
@@ -75,14 +74,15 @@ class Home extends React.Component {
           </div>
           }
         </div>
-      </Layout>
     )
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
-    <Home />,
-    document.body.appendChild(document.createElement('div')),
-  )
-})
+//document.addEventListener('DOMContentLoaded', () => {
+//  ReactDOM.render(
+//    <Layout>
+//      <Home />
+//    </Layout>,
+//    document.body.appendChild(document.createElement('div')),
+//  )
+//})

@@ -5,3 +5,44 @@
       background-position: center;
     }
   }
+
+.navProfile {
+  display: inline-flex !important;
+  color: #717171;
+  height: 42px;
+  width: 77px;
+  background: rgb(255, 255, 255) none repeat scroll 0% 0% !important;
+  border: 1px solid rgb(221, 221, 221) !important;
+  line-height: 20px;
+  border-radius: 21px !important;
+  align-items: center !important;
+  vertical-align: middle !important;
+  padding: 5px 5px 5px 12px !important;
+}
+
+#loginNav {
+  color: #1b3670;
+}
+
+#navMenu {
+  margin-top: 10px;
+  border-radius: 15px;
+  color: black !important;
+  width: 240px;
+}
+
+.dropdown-divider {
+  margin-left: -10px !important;
+}
+
+#usrImg {
+  height: 30px;
+  width: 30px;
+}
+#usrBars {
+  height: 16px;
+  width: 16px;
+}
+.dropdown-toggle::after {
+  content: none !important;
+}
