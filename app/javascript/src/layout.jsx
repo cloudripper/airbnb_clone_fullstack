@@ -49,7 +49,7 @@ const Layout = (props) => {
                       <ul className="dropdown-menu dropdown-menu-right pl-2 mr-auto" id="navMenu" role="menu">
                         <li className="mb-2"><NavLink to="/sign-up" activeStyle={{fontWeight: "bold", color: "black"}}>Messages</NavLink></li>
                         <li className="mb-2"><NavLink to="/login" activeStyle={{fontWeight: "bold", color: "black"}}>Notifications</NavLink></li>
-                        <li className="mb-2"><NavLink to="/login" activeStyle={{fontWeight: "bold", color: "black"}}>Trips</NavLink></li>
+                        <li className="mb-2"><NavLink to="/trips" activeStyle={{fontWeight: "bold", color: "black"}}>Trips</NavLink></li>
                         <li className="mb-2"><NavLink to="/login" activeStyle={{fontWeight: "bold", color: "black"}}>Saved</NavLink></li>
                         <li role="presentation" className="dropdown-divider"></li>
                         <li className="mb-2"><a disabled href="#">Manage Listings</a></li>
@@ -78,7 +78,7 @@ const Layout = (props) => {
             })()} 
           </nav>
           {props.children}
-          <footer className="p-3 bg-light">
+          <footer id="footer" className="p-3 mt-5 bg-light">
             <div>
               <p className="mr-3 mb-0 text-secondary">Airbnb Clone</p>
             </div>

@@ -1,11 +1,4 @@
-.property {
-    .property-image {
-      padding-top: calc(2 / 3 * 100%); /* aspect ratio 3:2 */
-      background-size: cover;
-      background-position: center;
-    }
-  }
-
+//NAVBAR
 .navProfile {
   display: inline-flex !important;
   color: #717171;
@@ -46,3 +39,36 @@
 .dropdown-toggle::after {
   content: none !important;
 }
+//END NAVBAR
+
+//PROPERTY LISTING
+.property {
+  .property-image {
+    padding-top: calc(2 / 3 * 100%); /* aspect ratio 3:2 */
+    background-size: cover;
+    background-position: center;
+  }
+}
+//END PROPERTY LISTING
+
+
+
+// FOOTER 
+#footer {
+  position: relative;
+  bottom: 0;
+  width: 100%
+}
+// END FOOTER 
+
+
+
+
+//TRIPS - BOOKINGS LIST
+.past {
+  background-color: darkgray;
+}
+.upcoming {
+  background-color: #b0ffc4;
+}
+// END TRIPS

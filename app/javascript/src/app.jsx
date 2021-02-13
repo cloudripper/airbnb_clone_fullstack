@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { handleErrors, safeCredentials } from '@utils/fetchHelper';
+import { authenticate } from '@utils/tools';
 import Layout from '@src/layout';
 import { LoginRoute, SignupRoute } from '@src/login';
 import { PropertyRoute } from '@src/property';
+import { Trips } from '@src/guest/trips';
+import { BookingSuccess } from '@src/booking/success';
 import { Home } from './home'
 
 import './home.scss';
@@ -15,20 +18,22 @@ const App = (props) => {
   const [ isAuth, setIsAuth ] = useState(false)
 
   useEffect(() => {
-    fetch("/api/authenticated")
-    .then(handleErrors)
-    .then(data => {
-      if (data.authenticated) {
-        setUser(data)
-        setIsAuth(true)
-        console.log("success ", data)
-      } else {
-        setUser(null)
-        setIsAuth(false)
-      }
-    })
+    handleLogin()
   }, [])
 
+  async function handleLogin() {
+    const auth = await authenticate()
+    if (await auth.authenticated) {
+      console.log("auth success ", auth)
+      setIsAuth(true)
+      setUser(auth)
+      setUser(auth)
+    } else {
+      console.log('false')
+      setUser(null)
+      setIsAuth(false)  
+    }
+  }
 
   function handleLogout(e) {
     if (e) { e.preventDefault(); }
@@ -41,6 +46,7 @@ const App = (props) => {
       .then(data => {
         console.log(data);
         if (data.success) {
+          setIsAuth(false)
           window.location = '/';
           console.log("Logout complete");
         }
@@ -65,6 +71,8 @@ const App = (props) => {
           <Route exact path="/login" ><LoginRoute /></Route>
           <Route exact path="/sign-up" component={SignupRoute} />
           <Route exact path="/property/:id" component={PropertyRoute} />
+          <Route exact path="/trips"><Trips key={user} user={user} isAuth={isAuth} /></Route>
+          <Route exact path="/booking/:id/success" component={BookingSuccess} />
           <Redirect from="/*" to="/" />
         </Switch>
       </Layout>

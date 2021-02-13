@@ -77,12 +77,3 @@ export class Home extends React.Component {
     )
   }
 }
-
-//document.addEventListener('DOMContentLoaded', () => {
-//  ReactDOM.render(
-//    <Layout>
-//      <Home />
-//    </Layout>,
-//    document.body.appendChild(document.createElement('div')),
-//  )
-//})

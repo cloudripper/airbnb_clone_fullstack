@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     get '/charges/:booking_id' => 'charges#get_charge'
     get '/user/charges' => 'charges#get_user_charges'
     delete '/sessions' => 'sessions#destroy'  
+    delete '/charges/:booking_id' => 'charges#refund'
+    delete '/booking/:booking_id' => 'bookings#destroy'  
     
 
   end

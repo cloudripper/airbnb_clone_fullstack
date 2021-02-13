@@ -1,6 +1,23 @@
 json.booking do
     json.id @booking.id
-    json.start_date @booking.start_date
-    json.end_date @booking.end_date
+    json.start_date @start_date
+    json.end_date @end_date
+    json.created_at @created_at
     json.property_id @booking.property_id
+    json.prop_title @booking.property.title
+    json.prop_description @booking.property.description
+    json.prop_city @booking.property.city
+    json.prop_country @booking.property.country.upcase
+    json.prop_type @booking.property.property_type.capitalize
+    json.prop_guests @booking.property.max_guests
+    json.prop_bedrooms @booking.property.bedrooms
+    json.prop_beds @booking.property.beds
+    json.prop_baths @booking.property.baths
+    json.prop_host @booking.property.user.username
+    json.prop_host_contact @booking.property.user.email
+    json.charges @amount
+    json.days_booked @days_booked
+    json.price_per_night @booking.property.price_per_night
+    json.complete @complete
+    json.status @status
   end

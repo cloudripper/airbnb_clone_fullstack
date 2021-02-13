@@ -1,4 +1,6 @@
 module Api
+
+
     class BookingsController < ApplicationController
       def create
         token = cookies.signed[:airbnb_session_token]
@@ -62,9 +64,11 @@ module Api
         return render json: { success: false } unless session
         
         user = session.user
+        user_param = User.find_by(id: params[:user_id])
 ############
-        if params[:user_id] == user.user_id
-          @bookings = user.bookings.all
+        if user_param.id == user.id
+          @bookings = user.bookings.all.sort
+          
           render 'api/bookings/index'
         else 
           render json: {
@@ -75,15 +79,31 @@ module Api
       end 
 
       def get_booking
+        require 'date'
+
         token = cookies.signed[:airbnb_session_token]
         session = Session.find_by(token: token)
         return render json: { success: false } unless session
 
         user = session.user
+        user_param = User.find_by(id: params[:user_id])
         
-        if params[:user_id] == user.user_id
+        if user_param.id == user.id
           @booking = user.bookings.find_by(id: params[:id])
           return render json: { error: 'cannot find booking' }, status: :not_found if not @booking
+          
+          @created_at = date_parse(@booking.created_at.to_s)
+          @start_date = date_parse(@booking.start_date.to_s)
+          @end_date = date_parse(@booking.end_date.to_s)
+          @days_booked = (@booking.end_date - @booking.start_date).to_i
+          if @booking.charges[0] 
+            @amount = sprintf('%.2f', @booking.charges[0].amount)
+            @complete = @booking.charges[0].complete
+            @status = @booking.charges[0].status
+          else 
+            @amount = "0.00"
+            @complete = false
+          end
           render 'api/bookings/show'
         else 
           render json: {
@@ -94,6 +114,11 @@ module Api
   
       private
   
+      def date_parse(date)   
+        new_date = Date.parse(date)
+        return new_date.strftime('%A, %b %d, %Y')
+      end
+
       def booking_params
         params.require(:booking).permit(:property_id, :start_date, :end_date)
       end

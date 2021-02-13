@@ -3,6 +3,7 @@ json.charge do
     json.currency @charge.currency
     json.amount @charge.amount
     json.complete @charge.complete
+    json.status @charge.status
     json.created_at @charge.created_at
     json.updated_at @charge.updated_at
 end

@@ -29,9 +29,10 @@ module Api
   
         @charge = booking.charges.new({
           checkout_session_id: session.id,
-          currency: 'usd',
           payment_intent: session.payment_intent,
-          amount: amount
+          currency: 'usd',
+          amount: amount,
+          status: "Pending",
         })
   
         if @charge.save
@@ -49,16 +50,21 @@ module Api
         booking = Booking.find_by(id: params[:booking_id])
         return render json: { error: 'cannot find booking' }, status: :not_found if !booking
 
+        charge = Charge.find_by(booking_id: params[:booking_id])
+        return render json: { error: 'cannot find charge' }, status: :not_found if !charge
+
         property = booking.property
         days_booked = (booking.end_date - booking.start_date).to_i
         amount = days_booked * property.price_per_night
 
         refund = Stripe::Refund.create({
-          payment_intent: booking.charges.payment_intent
-          amount: booking.charges.amount
+          amount: charge.amount.to_i,
+          payment_intent: charge.payment_intent,
         })
 
-        if refund
+        if refund.status = "succeeded"
+          charge.update({ status: "Refunded" })
+
           render json: {
             success: true,
             status: :ok,
@@ -100,7 +106,7 @@ module Api
           charge = Charge.find_by(checkout_session_id: session.id)
           return head :bad_request if !charge
   
-          charge.update({ complete: true })
+          charge.update({ complete: true, status: "Paid" })
   
           return head :ok
         end
@@ -131,6 +137,7 @@ module Api
       return render json: { error: 'No charge for booking ID' }, status: :not_found if not @charge
 
       if @charge.user == session.user 
+  
         render 'api/charges/show'        
       else 
         render json: {

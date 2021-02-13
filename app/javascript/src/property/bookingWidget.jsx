@@ -4,6 +4,9 @@ import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import { safeCredentials, handleErrors } from '@utils/fetchHelper';
 import { Link } from 'react-router-dom';
+import {loadStripe} from '@stripe/stripe-js';
+import { initiateStripeCheckout } from '@utils/tools';
+
 
 import 'react-dates/lib/css/_datepicker.css';
 
@@ -27,7 +30,6 @@ class BookingWidget extends React.Component {
         })
       })
     this.getPropertyBookings();
-    console.log(process.env.STRIPE_PUBLISHABLE_KEY)
   }
   
   getPropertyBookings = () => {
@@ -44,6 +46,9 @@ class BookingWidget extends React.Component {
   submitBooking = (e) => {
     if (e) { e.preventDefault(); }
     const { startDate, endDate } = this.state;
+    
+  
+
     console.log(startDate.format('MMM DD YYYY'), endDate.format('MMM DD YYYY'));
     fetch(`/api/bookings`, safeCredentials({
       method: 'POST',
@@ -57,36 +62,22 @@ class BookingWidget extends React.Component {
     }))
       .then(handleErrors)
       .then(response => {
-        return this.initiateStripeCheckout(response.booking.id);
+        const status = initiateStripeCheckout(response.booking.id);
+        if (!status) {
+          console.log("STATUS:   ", status)
+        }
       })
       .catch(error => {
         console.log(error);
       })
+    }
+  
+
+  rescindBooking() {
+    console.log("rescind")
   }
 
-  initiateStripeCheckout = (booking_id) => {
-    return fetch(`/api/charges?booking_id=${booking_id}&cancel_url=${window.location.pathname}`, safeCredentials({
-      method: 'POST',
-    }))
-      .then(handleErrors)
-      .then(response => {
-        const stripe = Stripe(process.env.STRIPE_PUBLISHABLE_KEY);
   
-        stripe.redirectToCheckout({
-          // Make the id field from the Checkout Session creation API response
-          // available to this file, so you can provide it as parameter here
-          // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
-          sessionId: response.charge.checkout_session_id,
-        }).then((result) => {
-          // If `redirectToCheckout` fails due to a browser or network
-          // error, display the localized error message to your customer
-          // using `result.error.message`.
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  }
 
   onDatesChange = ({ startDate, endDate }) => this.setState({ startDate, endDate })
   onFocusChange = (focusedInput) => this.setState({ focusedInput })
