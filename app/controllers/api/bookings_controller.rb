@@ -11,7 +11,7 @@ module Api
         return render json: { error: 'cannot find property' }, status: :not_found if !property
   
         begin
-          @booking = Booking.create({ user_id: session.user.id, property_id: property.id, start_date: params[:booking][:start_date], end_date: params[:booking][:end_date]})
+          @booking = Booking.create({ user_id: session.user.id, property_id: property.id, start_date: params[:booking][:start_date], end_date: params[:booking][:end_date], status: 'Incomplete'})
           render 'api/bookings/create', status: :created
         rescue ArgumentError => e
           render json: { error: e.message }, status: :bad_request
@@ -99,7 +99,7 @@ module Api
           if @booking.charges[0] 
             @amount = sprintf('%.2f', @booking.charges[0].amount)
             @complete = @booking.charges[0].complete
-            @status = @booking.charges[0].status
+            @charge_status = @booking.charges[0].status
           else 
             @amount = "0.00"
             @complete = false
@@ -120,7 +120,7 @@ module Api
       end
 
       def booking_params
-        params.require(:booking).permit(:property_id, :start_date, :end_date)
+        params.require(:booking).permit(:property_id, :start_date, :end_date, :status)
       end
     end
   end

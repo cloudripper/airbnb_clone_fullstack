@@ -5,6 +5,7 @@ json.bookings do
       json.end_date booking.end_date
       json.prop_city booking.property.city
       json.property_id booking.property_id
-      json.status booking.charges
+      json.charge booking.charges
+      json.status booking.status
     end
   end

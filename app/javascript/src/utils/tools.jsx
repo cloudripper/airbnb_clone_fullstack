@@ -28,25 +28,11 @@ export async function destroyBooking(id) {
   }).catch(error => console.log("Error: ", error))   
 }
 
-export async function updateBookingStatus(id) {
-  const url = "/api/booking/" + id
-  const apiRequest = {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-  }
-  return await fetch(url, safeCredentials(apiRequest))
-  .then(response => response.json()).then(data => { 
-      return data
-  }).catch(error => console.log("Error: ", error))   
-}
-
-
 
 export async function fetchBooking(userId, bookingId) {
     return await fetch(`/api/bookings/${userId}/${bookingId}`)
     .then(handleErrors)
     .then(data => {
-        console.log("success, booking data: ", data.booking)
         return data.booking;
       }
     ).catch(error => console.log(error.message))
@@ -59,7 +45,7 @@ export async function fetchBookingsIndex(userId) {
         console.log("success, booking data: ", data.bookings)
         let bookings = data.bookings
         const descBookings = bookings.slice().sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
-        const ascBookings = bookings.slice().sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
+        const ascBookings = descBookings.slice().sort((a, b) => new Date(a.start_date) - new Date(b.start_date))
         const bookingsArray = [ascBookings, descBookings]
         return bookingsArray;
       }
@@ -74,7 +60,6 @@ export async function initiateStripeCheckout(booking_id) {
     .then(handleErrors)
     .then(async response => {
       const stripe = await loadStripe(process.env.STRIPE_PUBLISHABLE_KEY);
-      console.log('checkout response ', response)
       stripe.redirectToCheckout({
         // Make the id field from the Checkout Session creation API response
         // available to this file, so you can provide it as parameter here
@@ -97,6 +82,49 @@ export async function initiateStripeCheckout(booking_id) {
     })
 }
 
+export const initiateStripeUpdate = async (booking_id) => {
+  return await fetch(`/api/charges/${booking_id}`, safeCredentials({
+    method: 'PUT',
+  }))
+  .then(handleErrors)
+  .then(async response => {
+    console.log('Resopse: ', response);
+
+    const stripe = await loadStripe(process.env.STRIPE_PUBLISHABLE_KEY);
+    stripe.redirectToCheckout({
+      // Make the id field from the Checkout Session creation API response
+      // available to this file, so you can provide it as parameter here
+      // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+      sessionId: response.session_id,
+    }).then((result) => {
+      // If `redirectToCheckout` fails due to a browser or network
+      // error, display the localized error message to your customer
+      // using `result.error.message`.
+      if (result.status.ok) {
+        return true
+      } else {
+        return false
+      }
+    });
+  })
+  .catch(error => {
+    console.log(error);
+    return false
+  })
+}
+
+export const initiateStripeRefund = async (booking_id) => {
+  return await fetch(`/api/charges/${booking_id}`, safeCredentials({
+    method: 'DELETE',
+  }))
+    .then(handleErrors)
+    .then(async response => {
+          return response
+    })
+    .catch(error => {
+      console.log(error);
+    })
+}
 
 //fetch("/api/authenticated")
 //.then(handleErrors)

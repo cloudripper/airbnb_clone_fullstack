@@ -65,8 +65,11 @@
 
 
 //TRIPS - BOOKINGS LIST
+.cancelled {
+  background-color: rgb(100, 100, 100);
+}
 .past {
-  background-color: darkgray;
+  background-color: rgb(187, 184, 184);
 }
 .upcoming {
   background-color: #b0ffc4;

@@ -19,5 +19,6 @@ json.booking do
     json.days_booked @days_booked
     json.price_per_night @booking.property.price_per_night
     json.complete @complete
-    json.status @status
+    json.charge_status @charge_status
+    json.status @booking.status
   end

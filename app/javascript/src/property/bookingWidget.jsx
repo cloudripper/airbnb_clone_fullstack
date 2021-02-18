@@ -4,7 +4,6 @@ import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import { safeCredentials, handleErrors } from '@utils/fetchHelper';
 import { Link } from 'react-router-dom';
-import {loadStripe} from '@stripe/stripe-js';
 import { initiateStripeCheckout } from '@utils/tools';
 
 
@@ -47,9 +46,6 @@ class BookingWidget extends React.Component {
     if (e) { e.preventDefault(); }
     const { startDate, endDate } = this.state;
     
-  
-
-    console.log(startDate.format('MMM DD YYYY'), endDate.format('MMM DD YYYY'));
     fetch(`/api/bookings`, safeCredentials({
       method: 'POST',
         body: JSON.stringify({

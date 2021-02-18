@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { authenticate, fetchBooking, destroyBooking, updateBookingStatus } from '@utils/tools';
+import { authenticate, fetchBooking, destroyBooking } from '@utils/tools';
 import { Redirect, useHistory, Link } from 'react-router-dom';
-import { initiateStripeCheckout } from '@utils/tools';
+import { initiateStripeCheckout, initiateStripeRefund, initiateStripeUpdate } from '@utils/tools';
 import { handleErrors, safeCredentials } from '@utils/fetchHelper';
 
 
@@ -19,10 +19,11 @@ export const BookingSuccess = (props) => {
     const [ booking, setBooking ] = useState(null)
     const [ upcoming, setUpcoming ] = useState(false)
     const [ charge, setCharge ] = useState(0)
-    const [ status, setStatus ] = useState(0)
+    const [ chargeStatus, setChargeStatus ] = useState(0)
     const [ bookingStatus, setBookingStatus ] = useState(null)
     const [ pricePerNight, setPricePerNight ] = useState(0)
     const [ daysBooked, setDaysBooked ] = useState(0)
+    const [ key, setKey ] = useState(0)
     const history = useHistory()
 
 
@@ -33,40 +34,43 @@ export const BookingSuccess = (props) => {
     async function confirmAuth() {
         const auth = await authenticate()
         const booking = await fetchBooking(auth.user_id, params.id)
+        fetchCharge(auth.user_id, params.id)
+        console.log("BACKEND STATUS CHECK: ", booking.status)
         const today = Date.now()
         if (await booking) {
             console.log("math: ", booking.charges)
             const start = new Date(booking.start_date)
             
             let switchStatus = ''
+            setBookingStatus(booking.status)
             if (today < start) {
                 setUpcoming(true)
-
-                switch(booking.status) {
-                    case "Paid":
-                        setBookingStatus('Confirmed')
-                        break;
-                    case "Pending":
-                            setBookingStatus('Pending')
-                        break;
-                    case "Refunded":
-                        setBookingStatus('Cancelled')
-                        break;
-                    default:
-                        switchStatus = 'No payment'
-                }
-            } else {    
-                switch(booking.status) {
-                    case "Paid":
-                        setBookingStatus('Complete')
-                        break;
-                    default:
-                        setBookingStatus('Cancelled')
-                        break;
-                }
+//
+            //    switch(booking.charge_status) {
+            //        case "Paid":
+            //            setBookingStatus('Confirmed')
+            //            break;
+            //        case "Pending":
+            //            setBookingStatus('Pending')
+            //            break;
+            //        case "Refunded":
+            //            setBookingStatus('Cancelled')
+            //            break;
+            //        default:
+            //            switchStatus = 'No payment'
+            //    }
+            //} else {    
+            //    switch(booking.charge_status) {
+            //        case "Paid":
+            //            setBookingStatus('Complete')
+            //            break;
+            //        default:
+            //            setBookingStatus('Cancelled')
+            //            break;
+            //    }
             }
-            setStatus((!booking.status) ? 'No payment' : booking.status)
-
+            setChargeStatus((!booking.charge_status) ? 'No payment' : booking.charge_status)
+            console.log("Charge Status: ", booking.charge_status)
             setBooking(booking)
             setUser(auth.username)
             setCheckIn(booking.start_date)
@@ -81,48 +85,33 @@ export const BookingSuccess = (props) => {
         }       
     }
 
+    async function fetchCharge(userId, bookingId) {
+        return await fetch(`/api/charges/${bookingId}`)
+        .then(handleErrors)
+        .then(data => {
+            console.log("GET CHARGE: ", data)
+            return data;
+          }
+        ).catch(error => console.log(error.message))
+    } 
+
     async function handleCancel(e) {
-        //const booking = await destroyBooking(e.target.id)
-        const charge = await initiateStripeRefund(e.target.id)
-        if (await charge) {
-            updateBookingStatus()
-        } else {
-            console.log('Charge Refund?: ', charge)
-        }
+        initiateStripeRefund(e.target.id)
     }
 
     async function handlePayment(e) {
-        initiateStripeCheckout(e.target.id)
-        ////const booking = await destroyBooking(e.target.id)
-        //const charge = await initiateStripeRefund(e.target.id)
-        //if (await charge) {
-        //    updateBookingStatus()
-        //} else {
-        //    console.log('Charge Refund?: ', charge)
-        //}
+        await initiateStripeUpdate(e.target.id)
     }
 
-    const initiateStripeRefund = (booking_id) => {
-        return fetch(`/api/charges/${booking_id}`, safeCredentials({
-          method: 'DELETE',
-        }))
-          .then(handleErrors)
-          .then(async response => {
-                return response.success
-          })
-          .catch(error => {
-            console.log(error);
-          })
-      }
-
+//LOAD 
     if (loaded) {
         return (
-            <div className="container">
+            <div className="container" key={key}>
             <div className="mt-4">
                 <p style={{ fontWeight: "700", fontSize: "1.5rem" }}>{bookingStatus}: 2 Nights in {booking.prop_city}, {booking.prop_country}</p>
                 <div className="d-flex justify-content-between">
                     <p className="flex-item">Booked by: {user}</p>
-                    <p className="flex-item">Order Status: {status}</p>
+                    <p className="flex-item">Order Status: {chargeStatus}</p>
                 </div>
                 <div className="d-flex justify-content-between">
                     <p className="flex-item">Date of Booking: {booking.created_at}</p>
@@ -176,7 +165,7 @@ export const BookingSuccess = (props) => {
                         if (upcoming) {
                             let button = ''
                             
-                            switch(status) {
+                            switch(chargeStatus) {
                                 case "No payment":
                                     button = <button onClick={handlePayment} id={booking.id} className="btn btn-success">Confirm Payment</button>;
                                     break;

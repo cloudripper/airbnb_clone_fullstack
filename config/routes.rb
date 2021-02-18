@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     post '/charges/mark_complete' => 'charges#mark_complete'
 
     #Feature additions
+    post '/api/sessions' => 'sessions#create'
     get '/bookings/:user_id' => 'bookings#get_user_bookings'
     get '/bookings/:user_id/:id' => 'bookings#get_booking'
     get '/properties/:user_id' => 'properties#get_user_properties'
@@ -27,6 +28,7 @@ Rails.application.routes.draw do
     get '/user/charges' => 'charges#get_user_charges'
     delete '/sessions' => 'sessions#destroy'  
     delete '/charges/:booking_id' => 'charges#refund'
+    put '/charges/:booking_id' => 'charges#update'
     delete '/booking/:booking_id' => 'bookings#destroy'  
     
 
