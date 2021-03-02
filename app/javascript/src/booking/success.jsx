@@ -45,29 +45,6 @@ export const BookingSuccess = (props) => {
             setBookingStatus(booking.status)
             if (today < start) {
                 setUpcoming(true)
-//
-            //    switch(booking.charge_status) {
-            //        case "Paid":
-            //            setBookingStatus('Confirmed')
-            //            break;
-            //        case "Pending":
-            //            setBookingStatus('Pending')
-            //            break;
-            //        case "Refunded":
-            //            setBookingStatus('Cancelled')
-            //            break;
-            //        default:
-            //            switchStatus = 'No payment'
-            //    }
-            //} else {    
-            //    switch(booking.charge_status) {
-            //        case "Paid":
-            //            setBookingStatus('Complete')
-            //            break;
-            //        default:
-            //            setBookingStatus('Cancelled')
-            //            break;
-            //    }
             }
             setChargeStatus((!booking.charge_status) ? 'No payment' : booking.charge_status)
             console.log("Charge Status: ", booking.charge_status)
@@ -106,7 +83,7 @@ export const BookingSuccess = (props) => {
 //LOAD 
     if (loaded) {
         return (
-            <div className="container" key={key}>
+            <div className="container vh-100" key={key}>
             <div className="mt-4">
                 <p style={{ fontWeight: "700", fontSize: "1.5rem" }}>{bookingStatus}: 2 Nights in {booking.prop_city}, {booking.prop_country}</p>
                 <div className="d-flex justify-content-between">

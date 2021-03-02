@@ -1,20 +1,41 @@
+import React from 'react';
 import { handleErrors, safeCredentials } from '@utils/fetchHelper';
 import {loadStripe} from '@stripe/stripe-js';
 import { Redirect } from 'react-router-dom';
+
+import '@utils/spinner.scss'
 
 
 export async function authenticate() {
     return await fetch("/api/authenticated")
     .then(handleErrors)
     .then(data => {
-      if (data.authenticated) {
-        console.log("success ", data)
-        return data;
-      } else {
-        return false
-      }
-    })
+      //if (data.authenticated) {
+      //  return data;
+      //} else {
+
+        return data
+      //}
+      //console.log("JSON: ", JSON.parse(data))
+      
+      
+    }).catch(error => console.log(error))
 }
+
+
+export async function fetchUser(userId) {
+  const request = {
+    //dataType: 'json',
+    // data: JSON.stringify(data)
+  }
+  return await fetch(`/api/users/show/${userId}`)
+  .then(handleErrors)
+  .then(data => {
+      console.log("Fetch user: ", data)
+      return data.user;
+    }
+  ).catch(error => console.log('Error: ', error))
+} 
 
 export async function destroyBooking(id) {
   const url = "/api/booking/" + id
@@ -42,7 +63,7 @@ export async function fetchBookingsIndex(userId) {
     return await fetch(`/api/bookings/${userId}`)
     .then(handleErrors)
     .then(data => {
-        console.log("success, booking data: ", data.bookings)
+      console.log("Bookings data: ", data)
         let bookings = data.bookings
         const descBookings = bookings.slice().sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
         const ascBookings = descBookings.slice().sort((a, b) => new Date(a.start_date) - new Date(b.start_date))
@@ -126,15 +147,37 @@ export const initiateStripeRefund = async (booking_id) => {
     })
 }
 
-//fetch("/api/authenticated")
-//.then(handleErrors)
-//.then(data => {
-//  if (data.authenticated) {
-//    setUser(data)
-//    setIsAuth(true)
-//    console.log("success ", data)
-//  } else {
-//    setUser(null)
-//    setIsAuth(false)
-//  }
-//})
+export const subscribeHost = async (auth, status) => {
+  const url = "/api/users/host/" + auth.user_id
+  const data = { 
+    user: { 
+      host_status: status 
+    }
+  }
+
+  const apiRequest = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+  }
+
+  return await fetch(url, safeCredentials(apiRequest))
+  .then(handleErrors).then(data => { 
+      if (data.user.host_status) { 
+        window.location = `/hosting/${data.user.user_id}/home`
+      } else { 
+        return data
+      }
+  }).catch(error => console.log("Error: ", error))   
+}
+
+
+
+export function Spinner(props) {
+  return (    
+      <>
+          <div className="spinner"/>
+          <div className="text-center mt-5"><i>{props.error}</i></div>
+      </>
+  )
+}

@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { authenticate, fetchBookingsIndex } from '@utils/tools';
 import Layout from '@src/layout';
 import { Redirect, useHistory } from 'react-router-dom';
+import { useAuth } from '@utils/authContext';
 
 import '../home.scss';
 
 
 export const Trips = (props) => {
-    const user = props.user 
+    const user = useAuth()
     const [ bookings, setBookings ] = useState(null)
     const [ bookingsArray, setBookingsArray ] = useState(null)
     const [ loaded, setLoaded ] = useState(false)
@@ -17,9 +18,12 @@ export const Trips = (props) => {
     const [ showBookings, setShowBookings ] = useState("all")
     const [ bookingSort, setBookingSort ] = useState(1)
     const history = useHistory()
+    const myContext = useAuth()
 
-    useEffect(() => {
+    useEffect(() => {        
         handleBookings()
+        console.log("Trips Context Test: ", myContext)
+
     }, [])
 
     async function handleBookings() {

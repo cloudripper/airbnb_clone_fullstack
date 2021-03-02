@@ -15,12 +15,14 @@ Rails.application.routes.draw do
 
     get '/properties/:id/bookings' => 'bookings#get_property_bookings'
     get '/authenticated' => 'sessions#authenticated'
-    get '/login' => 'users#show'
+    get '/login' => 'users#show_auth'
 
     post '/charges/mark_complete' => 'charges#mark_complete'
 
     #Feature additions
     post '/api/sessions' => 'sessions#create'
+    get '/users/show/:user_id' => 'users#show'
+    get '/bookings/:user_id' => 'bookings#get_user_bookings'
     get '/bookings/:user_id' => 'bookings#get_user_bookings'
     get '/bookings/:user_id/:id' => 'bookings#get_booking'
     get '/properties/:user_id' => 'properties#get_user_properties'
@@ -29,6 +31,7 @@ Rails.application.routes.draw do
     delete '/sessions' => 'sessions#destroy'  
     delete '/charges/:booking_id' => 'charges#refund'
     put '/charges/:booking_id' => 'charges#update'
+    put '/users/host/:user_id' => 'users#host_update'
     delete '/booking/:booking_id' => 'bookings#destroy'  
     
 

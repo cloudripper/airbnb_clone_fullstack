@@ -3,8 +3,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Layout from '@src/layout';
 import { handleErrors } from '@utils/fetchHelper';
+import { Spinner } from '@utils/tools';
 
 import './home.scss';
+
 
 export class Home extends React.Component {
   state = {
@@ -12,6 +14,7 @@ export class Home extends React.Component {
     total_pages: null,
     next_page: null,
     loading: true,
+    error: null,
   }
 
   componentDidMount() {
@@ -26,6 +29,10 @@ export class Home extends React.Component {
         })
       })
   }
+
+  //componentWillUnmount() {
+  //  this.setState({loading: true})
+  //}
 
   loadMore = () => {
     if (this.state.next_page === null) {
@@ -45,7 +52,7 @@ export class Home extends React.Component {
   }
 
   render () {
-    const { properties, next_page, loading } = this.state;
+    const { properties, next_page, loading, error } = this.state;
     return (
         <div className="container pt-4">
           <h4 className="mb-1">Top-rated places to stay</h4>
@@ -64,7 +71,7 @@ export class Home extends React.Component {
               )
             })}
           </div>
-          {loading && <p>loading...</p>}
+          {loading && <Spinner error={error} />}
           {(loading || next_page === null) ||
           <div className="text-center">
             <button

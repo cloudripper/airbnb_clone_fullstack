@@ -28,7 +28,7 @@ module Api
       else
         render json: {
           authenticated: false
-        }, status: :bad_request
+        }
       end
     end
 
