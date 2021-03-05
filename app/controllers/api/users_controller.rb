@@ -45,7 +45,7 @@ module Api
       #@user.update_attribute(host_status: params[:user][:host_status])
 
       if @user[:user_id] == params[:user][:user_id]
-        return render 'bad_request', status: :bad_request if not @user.update(host_status: params[:user][:host_status])
+        return render 'bad_request', status: :bad_request if not @user.update_attribute(:host_status, params[:user][:host_status])
         render 'api/users/show', status: :ok
       else 
         render json: {

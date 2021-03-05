@@ -43,12 +43,12 @@ export const Hosting = (props) => {
                 <h1 className="mt-5 mr-auto">Listings Dashboard</h1>
                 <p className="mb-4 mr-auto">{user.username}, {user.email} - <Link to={`/users/show/${user.user_id}`}>Go to Profile</Link></p>
                 <div className="d-flex justify-content-center">
-                    <Link to={`/hosting/${user.user_id}/listings`} className="text-decoration-none"><div className="flex-item border rounded bg-light mx-2 px-2 py-2" >
+                    <Link to={`/hosting/${user.user_id}/listings`} className="text-decoration-none text-dark"><div className="flex-item border rounded bg-light mx-2 px-2 py-2" >
                         <p className="mx-auto" style={{ fontWeight: "700" }}>Listings</p>
                         <p>Upcoming Bookings: --</p>
                         <p>Total Properties Listed: --</p>
                     </div></Link>
-                    <Link to={`/hosting/${user.user_id}/bookings`} className="text-decoration-none"><div className="flex-item border rounded bg-light mx-2 px-2 py-2" >
+                    <Link to={`/hosting/${user.user_id}/bookings`} className="text-decoration-none text-dark"><div className="flex-item border rounded bg-light mx-2 px-2 py-2" >
                         <p className="mx-auto" style={{ fontWeight: "700" }}>Manage Bookings</p>
                         <p>Calendar</p>
                     </div></Link>

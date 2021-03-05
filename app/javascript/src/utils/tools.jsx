@@ -145,7 +145,10 @@ export const initiateStripeRefund = async (booking_id) => {
     .catch(error => {
       console.log(error);
     })
-}
+  }
+
+
+///////////HOST TOOLS//////////////
 
 export const subscribeHost = async (auth, status) => {
   const url = "/api/users/host/" + auth.user_id
@@ -171,13 +174,85 @@ export const subscribeHost = async (auth, status) => {
   }).catch(error => console.log("Error: ", error))   
 }
 
+export async function fetchUserProperties(userId) {
+  return await fetch(`/api/host/properties/${userId}`)
+  .then(handleErrors)
+  .then(data => {
+    console.log("User Properties data: ", data)
+    return data.properties
+      //let bookings = data.bookings
+      //const descBookings = bookings.slice().sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
+      //const ascBookings = descBookings.slice().sort((a, b) => new Date(a.start_date) - new Date(b.start_date))
+      //const bookingsArray = [ascBookings, descBookings]
+      //return bookingsArray;
+    }
+  )
+} 
 
 
+export async function createListing(id, data) {
+  const url = "/api/properties/" + id
+  const apiRequest = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+  }
+  return await fetch(url, safeCredentials(apiRequest))
+  .then(response => response.json()).then(data => { 
+      console.log(data)
+      return data
+  }).catch(error => { 
+      console.log("Error: ", error)
+      return error
+    }
+  )   
+}
+
+
+export async function fetchHostBookingsIndex(userId) {
+  return await fetch(`/api/host/bookings`)
+  .then(handleErrors)
+  .then(data => {
+    console.log("Host Bookings data: ", data)
+    return data
+    }
+  )
+} 
+
+
+///////////SPINNER//////////////////
 export function Spinner(props) {
   return (    
-      <>
+      <div className="container vh-100">
           <div className="spinner"/>
           <div className="text-center mt-5"><i>{props.error}</i></div>
-      </>
+      </div>
   )
+}
+
+
+////////////SORT FUNCTION////////////
+
+export function sortArray(array, sort) {
+  const index = array.length - 1
+  const direction = (array[0][sort] > array[index][sort]) ? "descend" : "ascend"
+  
+  let sortedArray = array
+
+  if (sort !== null) {
+    sortedArray.sort((a, b) => {
+        if (a[sort] < b[sort]) {
+            let position = (direction === 'ascend') ? 1 : -1
+            return position
+        }
+        if (a[sort] > b[sort]) {
+            let position = (direction === 'ascend') ? -1 : 1
+            return position
+        }
+          return 0
+    })
+    return sortedArray
+  }
+  
+  
 }

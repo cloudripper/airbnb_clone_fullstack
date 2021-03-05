@@ -112,6 +112,29 @@ module Api
         end   
       end
   
+      def get_host_bookings_index
+        require 'json' 
+
+        token = cookies.signed[:airbnb_session_token]
+        session = Session.find_by(token: token)
+        return render json: { success: false } unless session
+        
+        user = session.user
+        
+        bookings = []
+
+        @properties = user.properties.all
+        @properties.find_each do |key| 
+          bookings << key.bookings.all unless key.bookings.size == 0
+        end
+        
+        @bookings = *bookings.flatten
+
+        return render json: { error: 'No properties available' }, status: :not_found if not @properties
+        render 'api/bookings/host_index', status: :ok
+      end
+
+
       private
   
       def date_parse(date)   

@@ -10,7 +10,7 @@ import { Profile } from '@src/account/profile';
 import { Home } from './home'
 import { Hosting, BecomeHost } from './host/hosting'
 import { Listings } from './host/listings'
-import { Bookings } from './host/bookings'
+import { HostBookings } from './host/bookings'
 import { NewListing } from './host/newListing'
 
 export const AuthenticatedApp = () => {
@@ -30,8 +30,8 @@ export const AuthenticatedApp = () => {
                  <Route exact path="/users/show/:id" component={Profile} />
                  <Route path="/hosting/:id/home" component={Hosting} />
                  <Route path="/hosting/:id/listings" component={Listings} />
-                 <Route path="/hosting/:id/new-listing" component={NewListing} />
-                 <Route path="/hosting/:id/bookings" component={Bookings} />
+                 <Route exact path="/hosting/:id/new-listing" component={NewListing} />
+                 <Route path="/hosting/:id/bookings" component={HostBookings} />
                  <Route exact path="/become-a-host" component={BecomeHost} />
             </Switch>
         </AuthLayout>

@@ -23,7 +23,7 @@ module Api
         @property = user.properties.new(property_params)
 
         if @property.save
-          render 'api/properties/show', status: :ok
+          render 'api/properties/show', status: :ok, success: true
         end
       end
 
@@ -65,18 +65,24 @@ module Api
         session = Session.find_by(token: token)
         return render json: { success: false } unless session
         
-        user = User.find_by(id: params[:user_id])
+        user = session.user
 
-        if session.user == user 
-          @properties = user.properties.all
-          return render json: { error: 'No properties available' }, status: :not_found if not @property
-          render 'api/properties/index'
-        else 
-          render json: {
-            success: false 
-          }
-        end
+        @properties = user.properties.all
+        return render json: { error: 'No properties available' }, status: :not_found if not @properties
+        render 'api/properties/hostindex'
       end
+
+    def get_property_bookings
+      token = cookies.signed[:airbnb_session_token]
+      session = Session.find_by(token: token)
+      return render json: { success: false } unless session
+      
+      user = session.user
+
+      @properties = user.properties.all
+      return render json: { error: 'No properties available' }, status: :not_found if not @properties
+      render 'api/properties/hostindex'
+    end
 
 
       private

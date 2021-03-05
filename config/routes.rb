@@ -20,20 +20,22 @@ Rails.application.routes.draw do
     post '/charges/mark_complete' => 'charges#mark_complete'
 
     #Feature additions
-    post '/api/sessions' => 'sessions#create'
+    post '/sessions' => 'sessions#create'
     get '/users/show/:user_id' => 'users#show'
     get '/bookings/:user_id' => 'bookings#get_user_bookings'
     get '/bookings/:user_id' => 'bookings#get_user_bookings'
     get '/bookings/:user_id/:id' => 'bookings#get_booking'
-    get '/properties/:user_id' => 'properties#get_user_properties'
+    post '/properties/:user_id' => 'properties#create'
     get '/charges/:booking_id' => 'charges#get_charge'
     get '/user/charges' => 'charges#get_user_charges'
     delete '/sessions' => 'sessions#destroy'  
     delete '/charges/:booking_id' => 'charges#refund'
     put '/charges/:booking_id' => 'charges#update'
-    put '/users/host/:user_id' => 'users#host_update'
     delete '/booking/:booking_id' => 'bookings#destroy'  
-    
+    get '/host/properties/:user_id' => 'properties#get_user_properties'
+    put '/users/host/:user_id' => 'users#host_update'
+    get '/host/bookings' => 'bookings#get_host_bookings_index'
+
 
   end
   get '/*uri', action: :app, controller: 'static_pages'

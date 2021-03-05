@@ -21,6 +21,7 @@ export class Home extends React.Component {
     fetch('/api/properties?page=1')
       .then(handleErrors)
       .then(data => {
+        console.log(data)
         this.setState({
           properties: data.properties,
           total_pages: data.total_pages,

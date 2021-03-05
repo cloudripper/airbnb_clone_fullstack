@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { authenticate, fetchBookingsIndex } from '@utils/tools';
+import { authenticate, fetchBookingsIndex, Spinner, sortArray } from '@utils/tools';
 import Layout from '@src/layout';
 import { Redirect, useHistory } from 'react-router-dom';
 import { useAuth } from '@utils/authContext';
@@ -18,12 +18,9 @@ export const Trips = (props) => {
     const [ showBookings, setShowBookings ] = useState("all")
     const [ bookingSort, setBookingSort ] = useState(1)
     const history = useHistory()
-    const myContext = useAuth()
 
     useEffect(() => {        
         handleBookings()
-        console.log("Trips Context Test: ", myContext)
-
     }, [])
 
     async function handleBookings() {
@@ -36,65 +33,20 @@ export const Trips = (props) => {
     }
 
     function handleSort(e) {
-        e.preventDefault()
-        let keySet = (bookingSort == 1) ? 0 : 1
-        setBookings(bookingsArray[keySet])
-        setBookingSort(keySet)
-        setCitySort(null)
-        setKey( Math.random() )
+        const sort = e.currentTarget.attributes[1].value
+
+        const sortedBookings = sortArray(bookings, sort)
+        setBookings(sortedBookings)
+        setKey(Math.random())
     }
-
-    function sortByCity (e) {
-        e.preventDefault()
-        
-
-        let sortArray
-        if (citySort == "asc" || citySort == "null") {
-            sortArray = bookings.slice().sort((a, b) => { 
-                const aCity = a.prop_city.toUpperCase()
-                const bCity = b.prop_city.toUpperCase()
-
-                if (aCity > bCity) {
-                    return 1
-                }
-                if (aCity < bCity) {
-                    return -1
-                }
-                return 0
-            })
-            setCitySort("desc")
-        } else {
-            sortArray = bookings.slice().sort((a, b) => { 
-                const aCity = a.prop_city.toUpperCase()
-                const bCity = b.prop_city.toUpperCase()
-
-                if (aCity < bCity) {
-                    return 1
-                }
-                if (aCity > bCity) {
-                    return -1
-                }
-                return 0
-            }) 
-            setCitySort("asc")
-        }
-
-        setBookings(sortArray)
-        setKey( Math.random() )
-    }
+    
 
     function showUpcoming (e) {
-        e.preventDefault()
-        setCitySort(null)
-        setStatusSort(null)
         setShowBookings("upcoming")
         setKey( Math.random() )
     }
     
     function showAll (e) {
-        e.preventDefault()
-        setCitySort(null)
-        setStatusSort(null)
         setShowBookings("all")
         setKey( Math.random() )
     }
@@ -121,18 +73,18 @@ export const Trips = (props) => {
                             <table className="table table-sm table-hover">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Item</th>
-                                        <th scope="col">City</th>
-                                        <th scope="col">Start Date</th>
-                                        <th scope="col">End Date</th>
-                                        <th scope="col">Payment</th>
-                                        <th scope="col">Trip Status</th>
+                                        <th scope="col"><span className="noselect">Item</span></th>
+                                        <th scope="col"><span type="button" value="prop_city" onClick={handleSort}><span className="noselect">City</span></span></th>
+                                        <th scope="col"><span type="button" value="start_date" onClick={handleSort}><span className="noselect">Start Date</span></span></th>
+                                        <th scope="col"><span type="button" value="end_date" onClick={handleSort}><span className="noselect">End Date</span></span></th>
+                                        <th scope="col"><span type="button" value="charge" onClick={handleSort}><span className="noselect">Payment</span></span></th>
+                                        <th scope="col"><span type="button" value="status" onClick={handleSort}><span className="noselect">Trip Status</span></span></th>
                                     </tr>
                                 </thead>
                                 <tbody key={key}>
                                 {bookings.map((booking, index) => {
                                     const item = index + 1
-                                    const city = booking.prop_city
+                                    const city = booking.prop_city.toUpperCase()
                                     const start = booking.start_date
                                     const end = booking.end_date
                                     const bookingId = booking.id
@@ -192,9 +144,7 @@ export const Trips = (props) => {
                                 </tbody>
                             </table>
                             <div className="d-flex mt-4 mb-4">
-                                <button className="btn btn-sm bg-dark text-light ml-auto mr-2" onClick={handleSort}>Sort by Start Date</button>
-                                <button className="btn btn-sm bg-dark text-light mr-2" onClick={sortByCity}>Sort by City</button>
-                                <button className="btn btn-sm bg-dark text-light mr-2" onClick={showUpcoming}>Show Active</button>
+                                <button className="btn btn-sm bg-dark text-light ml-auto mr-2" onClick={showUpcoming}>Show Active</button>
                                 <button className="btn btn-sm bg-dark text-light" onClick={showAll}>Show All</button>
                             </div>
                         </div>
@@ -202,7 +152,7 @@ export const Trips = (props) => {
                 </div>
         )
     } else {
-        return <p>Loading</p>
+        return <Spinner />
     }
 
 }
