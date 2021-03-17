@@ -1,7 +1,8 @@
 import React from 'react';
-import { handleErrors, safeCredentials } from '@utils/fetchHelper';
+import { handleErrors, safeCredentials, safeImgCredentials } from '@utils/fetchHelper';
 import {loadStripe} from '@stripe/stripe-js';
 import { Redirect } from 'react-router-dom';
+import { DirectUpload } from '@rails/activestorage';
 
 import '@utils/spinner.scss'
 
@@ -24,10 +25,7 @@ export async function authenticate() {
 
 
 export async function fetchUser(userId) {
-  const request = {
-    //dataType: 'json',
-    // data: JSON.stringify(data)
-  }
+
   return await fetch(`/api/users/show/${userId}`)
   .then(handleErrors)
   .then(data => {
@@ -73,6 +71,7 @@ export async function fetchBookingsIndex(userId) {
     )
 } 
 
+//////////////STRIPE FUNCTIONS////////////////
 
 export async function initiateStripeCheckout(booking_id) {
   return await fetch(`/api/charges?booking_id=${booking_id}&cancel_url=${window.location.pathname}`, safeCredentials({
@@ -105,7 +104,7 @@ export async function initiateStripeCheckout(booking_id) {
 
 export const initiateStripeUpdate = async (booking_id) => {
   return await fetch(`/api/charges/${booking_id}`, safeCredentials({
-    method: 'PUT',
+    method: 'POST',
   }))
   .then(handleErrors)
   .then(async response => {
@@ -146,6 +145,41 @@ export const initiateStripeRefund = async (booking_id) => {
       console.log(error);
     })
   }
+
+/////////USER UPDATE/////////
+
+export const updateProfile = async (user, data) => {
+  const url = "/api/users/update/" + user.user_id
+  
+  const apiRequest = {
+      method: 'PUT',
+      body: data,
+  }
+
+  return await fetch(url, safeCredentials(apiRequest))
+  .then(handleErrors)
+  .then(data => { 
+    console.log("updatre data: ", data)
+    return (data.user.success) ? data.user : false 
+  }).catch(error => console.log("Error: ", error))   
+}
+
+
+export const updateProfileImg = async (auth, formdata) => {
+  const url = "/api/users/update/avatar/" + auth.user_id
+  
+  const apiRequest = {
+      method: 'PUT',
+      body: formdata,
+  }
+
+  return await fetch(url, safeImgCredentials(apiRequest))
+  .then(handleErrors)
+  .then(data => { 
+    return (data.user.success) ? data.user : false
+  }).catch(error => console.log("Error: ", error))   
+}
+
 
 
 ///////////HOST TOOLS//////////////
@@ -208,6 +242,21 @@ export async function createListing(id, data) {
   )   
 }
 
+export const updateListingImg = async (propId, formdata) => {
+  const url = `/api/properties/${propId}/update/img`
+  
+  const apiRequest = {
+      method: 'PUT',
+      body: formdata,
+  }
+
+  return await fetch(url, safeImgCredentials(apiRequest))
+  .then(handleErrors)
+  .then(data => { 
+    console.log("Listing Update Data: ", data)
+    return (data.property.success) ? true : false
+  }).catch(error => console.log("Error: ", error))   
+}
 
 export async function fetchHostBookingsIndex(userId) {
   return await fetch(`/api/host/bookings`)
@@ -228,6 +277,10 @@ export function Spinner(props) {
           <div className="text-center mt-5"><i>{props.error}</i></div>
       </div>
   )
+}
+
+export function MiniSpinner(props) {
+  return <div className="miniSpinner"/>
 }
 
 

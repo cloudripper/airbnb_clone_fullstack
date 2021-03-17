@@ -15,6 +15,23 @@
     border-top:8px solid rgba(0,174,239,.8);
     border-radius:100%;
  }
+
+.miniSpinner {
+    left: 48%;
+    top: 50%;
+    height:25px;
+    width:25px;
+    margin:0px auto;
+    -webkit-animation: rotation .6s infinite linear;
+    -moz-animation: rotation .6s infinite linear;
+    -o-animation: rotation .6s infinite linear;
+    animation: rotation .6s infinite linear;
+    border-left:8px solid rgba(0,174,239,.15);
+    border-right:8px solid rgba(0,174,239,.15);
+    border-bottom:8px solid rgba(0,174,239,.15);
+    border-top:8px solid rgba(0,174,239,.8);
+    border-radius:100%;
+ }
  
  @-webkit-keyframes rotation {
     from {-webkit-transform: rotate(0deg);}

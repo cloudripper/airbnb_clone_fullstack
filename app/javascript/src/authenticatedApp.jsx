@@ -6,7 +6,7 @@ import { PropertyRoute } from '@src/property';
 import { Trips } from '@src/guest/trips';
 import { BookingSuccess } from '@src/booking/success';
 import { Dashboard } from '@src/account/dashboard';
-import { Profile } from '@src/account/profile';
+import { Profile, EditProfile } from '@src/account/profile';
 import { Home } from './home'
 import { Hosting, BecomeHost } from './host/hosting'
 import { Listings } from './host/listings'
@@ -17,7 +17,7 @@ export const AuthenticatedApp = () => {
   
   return (
     <Router>
-        <AuthLayout >
+        <AuthLayout>
             <Switch>
                  <Route exact path="/" component={Home} />
                  <Route exact path="/login" ><LoginRoute /></Route>
@@ -28,6 +28,7 @@ export const AuthenticatedApp = () => {
                  <Route exact path="/booking/:id/success" component={BookingSuccess} />
                  <Route exact path="/account" component={Dashboard}/>
                  <Route exact path="/users/show/:id" component={Profile} />
+                 <Route exact path="/users/edit/:id" component={EditProfile} />
                  <Route path="/hosting/:id/home" component={Hosting} />
                  <Route path="/hosting/:id/listings" component={Listings} />
                  <Route exact path="/hosting/:id/new-listing" component={NewListing} />

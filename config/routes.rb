@@ -21,11 +21,15 @@ Rails.application.routes.draw do
 
     #Feature additions
     post '/sessions' => 'sessions#create'
+    post '/users' => 'users#create'
     get '/users/show/:user_id' => 'users#show'
+    put '/users/update/avatar/:user_id' => 'users#img_update'
+    put '/users/update/:user_id' => 'users#update'
     get '/bookings/:user_id' => 'bookings#get_user_bookings'
     get '/bookings/:user_id' => 'bookings#get_user_bookings'
     get '/bookings/:user_id/:id' => 'bookings#get_booking'
     post '/properties/:user_id' => 'properties#create'
+    put '/properties/:id/update/img' => 'properties#img_update'
     get '/charges/:booking_id' => 'charges#get_charge'
     get '/user/charges' => 'charges#get_user_charges'
     delete '/sessions' => 'sessions#destroy'  

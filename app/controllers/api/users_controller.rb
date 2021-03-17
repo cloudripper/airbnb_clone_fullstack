@@ -1,12 +1,94 @@
+require "image_processing/mini_magick"
 module Api
   class UsersController < ApplicationController
+    
+
     def create
       @user = User.new(user_params)
 
-      if @user.save
+      if @user.save!
           render 'api/users/create', status: :created
         else
           render json: { success: false }, status: :bad_request
+      end
+    end
+
+    def img_update
+      token = cookies.signed[:airbnb_session_token]
+      session = Session.find_by(token: token)
+      return render json: { success: false } unless session
+
+      @user = session.user
+      
+      if @user 
+        @user.images.attached? && @user.images.purge 
+        
+        path = params[:user][:images].tempfile.path
+        processed = ImageProcessing::MiniMagick
+          .source(path)
+          .resize_to_limit(300, 400)
+          .strip
+          .call(destination: path)
+          
+        @user.images.attach(params[:user][:images]) 
+
+        path = params[:user][:images].tempfile.path
+        processed = ImageProcessing::MiniMagick
+          .source(path)
+          .resize_to_limit(300, 400)
+          .strip
+          .quality('50')
+          .blur('0x4')
+          .call(destination: path)
+
+        @user.images.attach(params[:user][:images]) 
+
+        if @user.images.attached?
+          render 'api/users/show'
+        else 
+          return render json: { success: false, status: :bad_request } 
+        end
+
+      else 
+        render json: {
+          success: false,
+          error: "User authentication failure"
+        }
+      end
+    
+    end
+
+    def update
+      token = cookies.signed[:airbnb_session_token]
+      session = Session.find_by(token: token)
+      return render json: { success: false } unless session
+
+      @user = session.user
+
+      #@user.update_attribute(host_status: params[:user][:host_status])
+
+      if @user[:user_id] == params[:user][:user_id]
+          if (params[:bio])
+            @user.update_attribute(:bio, params[:bio])
+          end 
+          if (params[:first_name])
+            @user.update_attribute(:first_name, params[:first_name])
+          end 
+          if (params[:last_name])
+            @user.update_attribute(:last_name, params[:last_name])
+          end 
+          if (params[:phone])
+            @user.update_attribute(:phone, params[:phone])
+          end 
+          if (params[:username])
+            @user.update_attribute(:username, params[:username])
+          end 
+          return render 'api/users/show'
+      else 
+        render json: {
+          success: @user,
+          error: "User authentication failure"
+        }
       end
     end
 
@@ -77,7 +159,7 @@ module Api
     private
 
     def user_params
-      params.require(:user).permit(:email, :password, :username, :host_status)
+      params.require(:user).permit(:email, :password, :username, :host_status, :images, :first_name, :last_name, :bio, :phone)
     end
   end
 end

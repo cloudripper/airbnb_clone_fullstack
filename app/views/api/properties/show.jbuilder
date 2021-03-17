@@ -11,7 +11,16 @@ json.property do
     json.beds @property.beds
     json.baths @property.baths
     json.image_url @property.image_url
-  
+    json.success true
+   # json.image  @property.images.map{|img| ({ image: img.service_url })}
+    json.image do
+      if @property.images.attached?
+        json.array @property.images.map{|img| ({ image: img.service_url })}
+      else 
+        json.seed @property.image_url
+      end
+    end
+
     json.user do
       json.id @property.user.id
       json.username @property.user.username

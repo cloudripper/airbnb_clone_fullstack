@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { handleErrors, safeCredentials } from '@utils/fetchHelper';
-import { authenticate } from '@utils/tools';
+import { authenticate, Spinner } from '@utils/tools';
 import { AuthContext, AuthProvider, useAuth } from '@utils/authContext';
 import { AuthenticatedApp } from '@src/authenticatedApp';
 import { UnauthenticatedApp } from '@src/unauthenticatedApp';
@@ -14,6 +14,7 @@ const App = (props) => {
 
   useEffect(() => {
   //  handleLogin()
+    console.log("Context Check: ", user)
   }, [])
 
 
@@ -39,8 +40,15 @@ const App = (props) => {
     })
   }
 
-  return user ? <AuthenticatedApp /> : <UnauthenticatedApp /> 
-  
+  return user ? <AuthRoute user={user} /> : <Spinner /> 
+}
+
+const AuthRoute = (props) => {
+  if (props.user.authenticated == true) {
+    return <AuthenticatedApp />
+  } else {
+    return <UnauthenticatedApp/>
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {

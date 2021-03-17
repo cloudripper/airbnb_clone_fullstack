@@ -5,11 +5,13 @@ import { DateRangePicker } from 'react-dates';
 import { safeCredentials, handleErrors } from '@utils/fetchHelper';
 import { Link } from 'react-router-dom';
 import { initiateStripeCheckout } from '@utils/tools';
+import { useAuth, AuthContext } from '@utils/authContext';
 
 
 import 'react-dates/lib/css/_datepicker.css';
 
 class BookingWidget extends React.Component {
+  static contextType = AuthContext
   state = {
     authenticated: false,
     startDate: null,
@@ -21,13 +23,19 @@ class BookingWidget extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/authenticated')
-      .then(handleErrors)
-      .then(data => {
-        this.setState({
-          authenticated: data.authenticated,
-        })
-      })
+    const user = this.context
+    console.log(user)
+    this.setState({
+      authenticated: user.authenticated
+    })
+
+    //fetch('/api/authenticated')
+    //  .then(handleErrors)
+    //  .then(data => {
+    //    this.setState({
+    //      authenticated: data.authenticated,
+    //    })
+    //  })
     this.getPropertyBookings();
   }
   

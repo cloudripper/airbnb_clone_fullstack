@@ -27,6 +27,45 @@ module Api
         end
       end
 
+      def img_update
+        token = cookies.signed[:airbnb_session_token]
+        session = Session.find_by(token: token)
+        return render json: { success: false } unless session
+        @property = Property.find_by(id: params[:id])
+        @user = session.user
+        
+        if @user.id == @property.user.id
+          @property.images.attached? && @property.images.purge 
+          path = params[:property][:images].tempfile.path
+          processed = ImageProcessing::MiniMagick
+            .source(path)
+            .resize_to_limit(2500, 1400)
+            .strip
+            .call(destination: path)
+          @property.images.attach(params[:property][:images]) 
+
+          path = params[:property][:images].tempfile.path
+          processed = ImageProcessing::MiniMagick
+            .source(path)
+            .strip
+            .quality('30')
+            .blur('0x8')
+            .call(destination: path) 
+          @property.images.attach(params[:property][:images]) 
+          if @property.images.attached?
+            render 'api/properties/show', status: :ok, success: true
+          else 
+            return render json: { success: false, status: :bad_request } 
+          end
+  
+        else 
+          render json: {
+            success: false,
+            error: "User authentication failure"
+          }
+        end
+      end
+
       def update 
         token = cookies.signed[:airbnb_session_token]
         session = Session.find_by(token: token)
@@ -88,7 +127,7 @@ module Api
       private
     
       def property_params
-          params.require(:property).permit(:title, :description, :city, :country, :property_type, :price_per_night, :max_guests, :bedrooms, :beds, :baths, :user)
+          params.require(:property).permit(:title, :description, :city, :country, :property_type, :price_per_night, :max_guests, :bedrooms, :beds, :baths, :user, :images)
       end
     end
   end

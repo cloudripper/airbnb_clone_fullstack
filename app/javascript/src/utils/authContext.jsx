@@ -5,7 +5,7 @@ import { handleErrors, safeCredentials } from '@utils/fetchHelper';
 
 
 
-export const AuthContext = React.createContext(false);
+export const AuthContext = React.createContext();
 
 export const AuthProvider = (props) => {
     const [ user, setUser ] = useState(null)
@@ -29,9 +29,9 @@ export const AuthProvider = (props) => {
             setLoaded(true)
         } else {
             console.log("Failed to authenticate")
-            setUser(null)
+            setUser("noAuth")
         }
-        setIsPending(false)
+        setIsPending(await false)
       }
     
     if (isPending) {

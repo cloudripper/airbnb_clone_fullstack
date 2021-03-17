@@ -9,27 +9,35 @@ import { useAuth, handleLogout } from '@utils/authContext';
 
 library.add(far, faBars, faUserCircle)
 
-//import './home.scss';
+import './home.scss';
 
 
 
 export const AuthLayout = (props) => {
   const userObj = useAuth()
-  const [ user, setUser ] = useState(null)
+  const [ user, setUser ] = useState(userObj)
   const [ loaded, setLoaded ] = useState(false)
   const [ isHost, setIsHost ] = useState("Become a Host")
+  const [ avatar, setAvatar ] = useState(null)
 
   useEffect(() => {
     //let isMounted = true;
+    setUser(userObj)
     if (userObj) {
       setUser(userObj.username)
       setIsHost((userObj.host_status) ? "Manage Listings" : "Become a Host")
+      setAvatar((userObj.image) ? <img id="thumbnail" src={`${userObj.image}`} />: <FontAwesomeIcon className="usrImg" icon={["far", "user-circle"]} />)
+      
       setLoaded(true)
     } else {
       console.log("Layout User Error")
     }
    // return () => { isMounted = false };
   }, [])
+
+  useEffect(() => {
+    setAvatar((userObj.image[0]) ? <img id="thumbnail" src={`${userObj.image[0].image}`} /> : <FontAwesomeIcon className="usrImg" icon={["far", "user-circle"]} />)
+  }, [user])
 
 
   //if (loaded) {
@@ -45,7 +53,7 @@ export const AuthLayout = (props) => {
               </ul>
             </div>
               <div className="navbar-nav navbar-right dropdown">
-                <a href="#" id="loginNav" className="navProfile dropdown-toggle mr-5" data-toggle="dropdown" role="button" aria-expanded="false"><FontAwesomeIcon id="usrBars" className="mr-2" icon={faBars} /><FontAwesomeIcon id="usrImg" icon={["far", "user-circle"]} /></a>
+                <a href="#" id="loginNav" className="navProfile dropdown-toggle mr-5" data-toggle="dropdown" role="button" aria-expanded="false"><FontAwesomeIcon id="usrBars" className="mr-2" icon={faBars} />{avatar}</a>
                 <ul className="dropdown-menu dropdown-menu-right pl-2 mr-auto" id="navMenu" role="menu">
                   <li className="mb-2"><NavLink to="/sign-up" activeStyle={{fontWeight: "bold", color: "black"}}>Messages</NavLink></li>
                   <li className="mb-2"><NavLink to="/login" activeStyle={{fontWeight: "bold", color: "black"}}>Notifications</NavLink></li>
@@ -75,10 +83,7 @@ export const AuthLayout = (props) => {
 }
 
 export const UnauthLayout = (props) => {
-  const userObj = useAuth()
-  const [ user, setUser ] = useState(null)
   const [ hasMounted, setHasMounted ] = useState(false)
-  const [ isHost, setIsHost ] = useState("Become a Host")
 
   useEffect(() => {
     setHasMounted(true)
@@ -108,7 +113,7 @@ export const UnauthLayout = (props) => {
               if (hasMounted) {
                   return ( 
                   <div className="navbar-nav navbar-right dropdown">
-                    <a href="#" className="navProfile dropdown-toggle mr-5" data-toggle="dropdown" role="button" aria-expanded="false"><FontAwesomeIcon id="usrBars" className="mr-2" icon={faBars} /><FontAwesomeIcon id="usrImg" icon={["fas", "user-circle"]} /></a>
+                    <a href="#" className="navProfile dropdown-toggle mr-5" data-toggle="dropdown" role="button" aria-expanded="false"><FontAwesomeIcon id="usrBars" className="mr-2" icon={faBars} /><FontAwesomeIcon className="usrImg" icon={["fas", "user-circle"]} /></a>
                     <ul className="dropdown-menu dropdown-menu-right pl-2 mr-auto" id="navMenu" role="menu">
                       <li className="mb-2"><NavLink to="/sign-up" activeStyle={{fontWeight: "bold", color: "black"}}>Sign Up</NavLink></li>
                       <li className="mb-2"><NavLink to="/login" activeStyle={{fontWeight: "bold", color: "black"}}>Login</NavLink></li>

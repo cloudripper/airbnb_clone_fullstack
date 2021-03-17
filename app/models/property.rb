@@ -14,5 +14,14 @@ class Property < ApplicationRecord
     validates :baths, presence: true, numericality: { only_integer: true, less_than: 20 }
     validates :user, presence: true
 
-    
+    has_many_attached :images
+
+    #def image_validate
+    #  if self.images.attached?
+    #    self.images.service_url
+    #  else
+    #    self.image_url
+    #  end
+    #end
+
   end

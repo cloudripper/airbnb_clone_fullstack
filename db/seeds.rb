@@ -1,10 +1,10 @@
 users = User.create([
-    { username: 'Tommy', email: 'tommy@test.com', password: 'password' },
-    { username: 'Bobby', email: 'bobby@test.com', password: 'password' },
-    { username: 'Sarah', email: 'sarah@test.com', password: 'password' },
-    { username: 'Lilly', email: 'lilly@test.com', password: 'password' },
-    { username: 'Jimmy', email: 'jimmy@test.com', password: 'password' },
-    { username: 'Cammy', email: 'cammy@test.com', password: 'password' },
+    { username: 'Tommy', email: 'tommy@test.com', password: 'password', host_status: true, phone: 2132230211 , bio: "I live in Moreno Valley and enjoy travelling around the country. We are a happy family.", first_name: "Tommy" , last_name: "Thompson" },
+    { username: 'Bobby', email: 'bobby@test.com', password: 'password', host_status: true, phone: 3042167855 , bio: "I am a hardworking Marine who dabbles in real estate. I most enjoy my time spent next to the beach or in the mountains with my wife and newborn daughter.", first_name: "Bobby" , last_name: "Ingraham" },
+    { username: 'Sarah', email: 'sarah@test.com', password: 'password', host_status: true, phone: 2079924329 , bio: "I am married with two adult children. I am a professor of theology, my husband is an attorney. We both love to do martial arts, race our Corvette and travel.", first_name: "Sarah" , last_name: "Avarasala" },
+    { username: 'Lilly', email: 'lilly@test.com', password: 'password', host_status: true, phone: 5552341236 , bio: "We’re a creative couple that’s infatuated with travel and good design that is kind to communities, animals, and the environment. We’re also the minds behind Kind Traveler, a new socially-conscious Give + Get hotel booking platform that empowers travelers to be a force for good in benefiting local communities and the environment. While we love hotels, we also love the unique homes and experiences offered by Airbnb. We use Airbnb in times when hotels are not an option---usually in wilderness-centric locations that allow us to get off the grid... which we like! When we’re not working on Kind Traveler, we love spending time in our Manhattan Beach backyard with our 7 rescue animals or in our Big Bear cabins. Connect with us at our cabin at @KindCabineer and at @KindTraveler for Kind Hotel offers.", first_name: "Lilly" , last_name: "Chang" },
+    { username: 'Jimmy', email: 'jimmy@test.com', password: 'password', host_status: true, phone: 4444444441 , bio: "Property Manager", first_name: "Jimmy" , last_name: "Jefferies" },
+    { username: 'Cammy', email: 'cammy@test.com', password: 'password', host_status: true, phone: 5104259012 , bio: "Owner/Broker at Forever Home Realty in Las Vegas, NV.", first_name: "Cammy" , last_name: "Stephens" },
   ])
   
   properties = Property.create([

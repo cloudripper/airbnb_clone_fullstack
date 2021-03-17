@@ -26,6 +26,7 @@ export const UnauthenticatedApp = (props) => {
             <Route exact path="/sign-up" component={SignupRoute} />
             <Route exact path="/property/:id" component={PropertyRoute} />
             <Route exact path="/become-a-host" component={Hosting} />
+            <Redirect from="/users/show/*" to="/login" />
           </Switch>
         </UnauthLayout>
       </Router>
