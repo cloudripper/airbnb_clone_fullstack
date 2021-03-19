@@ -12,6 +12,7 @@ import { Hosting, BecomeHost } from './host/hosting'
 import { Listings } from './host/listings'
 import { HostBookings } from './host/bookings'
 import { NewListing } from './host/newListing'
+import { ListingManagement } from './host/manageListing'
 
 export const AuthenticatedApp = () => {
   
@@ -32,6 +33,7 @@ export const AuthenticatedApp = () => {
                  <Route path="/hosting/:id/home" component={Hosting} />
                  <Route path="/hosting/:id/listings" component={Listings} />
                  <Route exact path="/hosting/:id/new-listing" component={NewListing} />
+                 <Route exact path="/hosting/:userId/property/:propId" component={ListingManagement} />
                  <Route path="/hosting/:id/bookings" component={HostBookings} />
                  <Route exact path="/become-a-host" component={BecomeHost} />
             </Switch>

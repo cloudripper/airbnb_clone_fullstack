@@ -50,7 +50,7 @@ export const Listings = (props) => {
                 {properties.map(property => {
                     return (
                       <div key={property.id} className="col-6 col-lg-4 mb-4">
-                        <a href={`/property/${property.id}`} className="text-body text-decoration-none">
+                        <a href={`/hosting/${user.user_id}/property/${property.id}`} className="text-body text-decoration-none">
                             <div className="property-image d-flex flex-column text-center hostProperty border rounded justify-content-center align-items-center" style={{ backgroundImage: `url(${property.image_url})` }} >
                                 <p className="flex-item text-uppercase mb-0 text-secondary"><small><b>{property.city}</b></small></p>
                                 <h6 className="flex-item mb-0">{property.title}</h6>

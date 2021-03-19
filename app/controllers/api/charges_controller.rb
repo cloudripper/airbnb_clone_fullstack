@@ -57,22 +57,25 @@ module Api
         days_booked = (@booking.end_date - @booking.start_date).to_i
 
         if @charge.status = 'Paid'
-          refund = Stripe::Refund.create({
-            payment_intent: @charge.payment_intent,
-          })
+          begin 
+            refund = Stripe::Refund.create({
+              payment_intent: @charge.payment_intent,
+            })
 
-          if refund.status = 'succeeded'
-            @booking.update_attribute(:status, 'Cancelled')
-            @charge.update_attribute(:status, 'Refunded')
+            if refund.status = 'succeeded'
+              @booking.update_attribute(:status, 'Cancelled')
+              @charge.update_attribute(:status, 'Refunded')
 
-            render json: {
-              success: true,
-              status: :ok,
-            }
-          else 
-            render json: {
-              success: false 
-            }
+              render json: {
+                success: true,
+                status: :ok,
+              }
+            end
+          rescue Stripe::InvalidRequestError
+              render json: {
+                success: true,
+                message: "Invalid Request Error: No Charge to Refund" ,
+              }
           end
         else 
           return render json: { status: 'not pending' }

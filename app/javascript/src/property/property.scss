@@ -16,3 +16,34 @@
   height: 150px;
   width: 150px;
 }
+
+.bookingListLayout {
+  border-radius: 15px;
+}
+
+.noHover {
+  pointer-events: none;
+}
+
+#tableDelete {
+  pointer-events: all;
+}
+
+#tableDelete:hover {
+  color: rgb(226, 0, 0);
+  border: none;
+  
+}
+
+.deleteBkgd {
+  background-color: rgba(255, 0, 0, 0.123) !important;
+}
+
+.focus-warning {
+  border: 1px solid red !important;
+}
+
+.editIcon {
+  color:#1b3670a4;
+  font-size: 0.8rem;
+}

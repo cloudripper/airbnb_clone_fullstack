@@ -112,9 +112,10 @@ const SelfProfile = (props) => {
                     <div className="col-8">
                         <div className="ml-5">
                             <h1>Hi, I'm {(()=>{ return (firstName) ? firstName : username })()}.</h1>
-                            <p>Joined in {created}</p>
-                            <Link className="mb-4" to={`/users/edit/${user.user_id}`}>Edit Profile</Link>
-                            <div>
+                            <p className="mb-1">Joined in {created}</p>
+                            <small><Link className="mb-4" to={`/users/edit/${user.user_id}`}>Edit Profile</Link></small>
+                            <hr/>
+                            <div className="mt-2">
                                 <h3>About</h3>
                                 <p>{(()=>{ return (bio) ? bio : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."})()}</p>
                             </div>
@@ -144,9 +145,6 @@ const VisitProfile = (props) => {
     useEffect(() => {
         console.log(props.userId)
         profileUser()
-        //return () => {
-        //    setVisitUser(null)
-        //}
     }, [])
 
     
@@ -200,9 +198,10 @@ const VisitProfile = (props) => {
                         <div className="ml-5">
                         <h1>Hi, I'm {(()=>{ return (firstName) ? firstName : username })()}.</h1>
                             <p>Joined in {created}</p>
+                            <hr/>
                             <div>
                                 <h3>About</h3>
-                                <p>{(()=>{ return (bio) ? bio : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."})()}</p>
+                                <p>{(()=>{ return (bio) ? bio : <i>"No information provided."</i>})()}</p>
                             </div>
                         </div>
                     </div>
@@ -216,25 +215,7 @@ const VisitProfile = (props) => {
 
 export const EditProfile = (props) => {
     const user = useAuth()
-    //const { match: { params }} = props
-    //const [ identity, setIdentity ] = useState(null)
-    //const [ username, setUsername ] = useState(null)
-    //const [ email, setEmail ] = useState(null)
-    //const [ phone, setPhone ] = useState(null)
-    //const [ created, setCreated ] = useState(null)
-    //const [ image, setImage ] = useState(user.image)
     const [ error, setError ] = useState(null)
-    
-    //useEffect(() => {
-    //  
-    //}, [])
-//
-    // function profileUser() {
-    //    const dateObj = new Date(user.created_at)
-    //    setUsername(user.username)
-    //    setEmail(user.email)
-    //    setCreated(dateObj.getFullYear())
-    //}
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -246,10 +227,7 @@ export const EditProfile = (props) => {
                 dataObj[dataKey] = form[i].value
             }
         }
-        
         const data = JSON.stringify(dataObj)
-    
-        console.log(dataObj, data)
         const userUpdate = await updateProfile(user, data)
         if (await userUpdate.success) {
             window.location=`/users/show/${user.user_id}`
@@ -261,7 +239,6 @@ export const EditProfile = (props) => {
           e.target.nextSibling.textContent = e.target.nextSibling.attributes[1].value - e.target.value.length
         }
       }
-  
 
     return (
         <div className="container mt-4">

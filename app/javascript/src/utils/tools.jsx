@@ -11,21 +11,12 @@ export async function authenticate() {
     return await fetch("/api/authenticated")
     .then(handleErrors)
     .then(data => {
-      //if (data.authenticated) {
-      //  return data;
-      //} else {
-
         return data
-      //}
-      //console.log("JSON: ", JSON.parse(data))
-      
-      
     }).catch(error => console.log(error))
 }
 
 
 export async function fetchUser(userId) {
-
   return await fetch(`/api/users/show/${userId}`)
   .then(handleErrors)
   .then(data => {
@@ -42,8 +33,9 @@ export async function destroyBooking(id) {
       headers: { 'Content-Type': 'application/json' },
   }
   return await fetch(url, safeCredentials(apiRequest))
-  .then(response => response.json()).then(data => { 
-      return data
+  .then(handleErrors)
+  .then(data => { 
+      return data.success
   }).catch(error => console.log("Error: ", error))   
 }
 
@@ -70,6 +62,8 @@ export async function fetchBookingsIndex(userId) {
       }
     )
 } 
+
+
 
 //////////////STRIPE FUNCTIONS////////////////
 
@@ -241,6 +235,23 @@ export async function createListing(id, data) {
     }
   )   
 }
+
+export const updateListing = async (propId, data) => {
+  const url = `/api/properties/${propId}/update`
+  
+  const apiRequest = {
+      method: 'PUT',
+      body: data,
+  }
+
+  return await fetch(url, safeCredentials(apiRequest))
+  .then(handleErrors)
+  .then(data => { 
+    console.log("updatre data: ", data)
+    return (data.property.success) ? true : false 
+  }).catch(error => console.log("Error: ", error))   
+}
+
 
 export const updateListingImg = async (propId, formdata) => {
   const url = `/api/properties/${propId}/update/img`

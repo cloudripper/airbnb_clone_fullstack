@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     get '/bookings/:user_id/:id' => 'bookings#get_booking'
     post '/properties/:user_id' => 'properties#create'
     put '/properties/:id/update/img' => 'properties#img_update'
+    put '/properties/:id/update/' => 'properties#update'
     get '/charges/:booking_id' => 'charges#get_charge'
     get '/user/charges' => 'charges#get_user_charges'
     delete '/sessions' => 'sessions#destroy'  
@@ -39,6 +40,7 @@ Rails.application.routes.draw do
     get '/host/properties/:user_id' => 'properties#get_user_properties'
     put '/users/host/:user_id' => 'users#host_update'
     get '/host/bookings' => 'bookings#get_host_bookings_index'
+    get '/host/property/:id/bookings/' => 'bookings#get_host_property_bookings'
 
 
   end

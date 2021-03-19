@@ -73,7 +73,7 @@ module Api
 
         user = session.user
         @property = user.properties.find_by(id: params[:id])
-
+        
         return render 'not_found', status: :not_found if not @property
         return render 'bad_request', status: :bad_request if not @property.update(property_params)
         render 'api/properties/show', status: :ok

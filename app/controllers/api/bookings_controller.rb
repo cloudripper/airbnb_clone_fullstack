@@ -36,16 +36,28 @@ module Api
         return render json: { success: false } unless session
         
         user = session.user
-        booking = Booking.find_by(id: params[:id])
+        booking = Booking.find_by(id: params[:booking_id])
+        property = Property.find_by(id: booking.property_id)
 
-        if booking and booking.user == user and booking.destroy
+        if booking.user_id == user.id && booking.destroy
           render json: {
             success: true,
+            source: "Guest",
+            user: user.id,
+            status: :ok,
+          }
+        elsif
+          property.user.id == user.id && booking.destroy
+          render json: {
+            success: true,
+            source: "Host",
+            user: user.id,
             status: :ok,
           }
         else 
           render json: {
-            success: false 
+            success: false,
+            message: "Booking Auth failed"
           }
         end
       end
@@ -120,6 +132,38 @@ module Api
         return render json: { success: false } unless session
         
         user = session.user
+        
+        bookings = []
+
+        @properties = user.properties.all
+        @properties.find_each do |key| 
+          bookings << key.bookings.all unless key.bookings.size == 0
+        end
+        
+        @bookings = *bookings.flatten
+
+        return render json: { error: 'No properties available' }, status: :not_found if not @properties
+        render 'api/bookings/host_index', status: :ok
+      end
+
+      def get_host_property_bookings
+        require 'json' 
+        token = cookies.signed[:airbnb_session_token]
+        session = Session.find_by(token: token)
+        return render json: { success: false } unless session
+        
+        user = session.user
+
+        @property = Property.find_by(id: params[:id])
+
+        if @property.user.id == user.id 
+          bookings = []  
+          bookings << @property.bookings.all unless @property.bookings.size == 0
+          @bookings = *bookings.flatten
+          return render 'api/bookings/host_index', status: :ok
+        else 
+          return render json: { success: false, status: :bad_request } 
+        end
         
         bookings = []
 

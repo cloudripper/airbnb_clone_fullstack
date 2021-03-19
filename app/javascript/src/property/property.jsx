@@ -32,29 +32,9 @@ class Property extends React.Component {
       property: propObj,
       image: (propObj.image.array) ? propObj.image.array[1].image : propObj.image.seed,
       loading: false,
-      
     })
-  
     console.log("Property: ", this.state.property)
-  //  await this.loadImage()
-
   }
-
-  //loadImage() {        
-  //  const { property } = this.state;     
-  //  let propImg = new Image()
-  //  console.log("onliad")
-  //  propImg.onload = () => {
-  //    //this.setState({image: propImg.src})
-  //    console.log("img loaded: ", propImg.src)
-  //    return propImg.src
-  //    $("#propHero").css("background-image", `url(${propImg.src})`)
-//
-  //    propImg = null
-  //  }
-  //  propImg.src = property.image.array[0].image
-//
-  //}
 
   render () {
     const { property, loading } = this.state;
@@ -96,7 +76,11 @@ class Property extends React.Component {
               <div className="info col-12 col-lg-8">
                 <div className="mb-3">
                   <h3 className="mb-0">{title}</h3>
-                  <p className="text-uppercase mb-0 text-secondary"><small>{city}</small></p>
+                  <div className="d-flex">
+                    <p className="text-uppercase mb-0 text-secondary mr-2"><small>{city}</small></p>
+                    -
+                    <p className="text-uppercase mb-0 text-secondary ml-2"><small>{country}</small></p>
+                  </div>
                   <p className="mb-0"><small>Hosted by <b><Link to={`/users/show/${user.id}`}>{user.username}</Link></b></small></p>
                 </div>
                 <div>
