@@ -73,7 +73,7 @@ export async function initiateStripeCheckout(booking_id) {
   }))
     .then(handleErrors)
     .then(async response => {
-      const stripe = await loadStripe(process.env.STRIPE_PUBLISHABLE_KEY);
+      const stripe = await loadStripe(`${process.env.PUBLISHABLE_KEY}`);
       stripe.redirectToCheckout({
         // Make the id field from the Checkout Session creation API response
         // available to this file, so you can provide it as parameter here
