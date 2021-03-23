@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { authenticate, fetchBookingsIndex } from '@utils/tools';
-import { Trips } from '@src/guest/trips';
+import { fetchBookingsIndex } from '@utils/tools';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@utils/authContext';
 
@@ -8,7 +7,6 @@ export const Dashboard = (props) => {
 const [ username, setUsername ] = useState('')
 const [ email, setEmail ] = useState('')
 const [ userId, setUserId ] = useState('')
-const [ userView, setUserView ] = useState("Travelling")
 const [ isAuth, setIsAuth ] = useState(true)
 const [ tripCount, setTripCount ] = useState(0)
 const [ pastCount, setPastCount ] = useState(0)

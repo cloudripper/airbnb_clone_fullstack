@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { UnauthLayout } from '@src/layout';
 import { LoginRoute, SignupRoute } from '@src/login';

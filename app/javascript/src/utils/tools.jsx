@@ -20,7 +20,6 @@ export async function fetchUser(userId) {
   return await fetch(`/api/users/show/${userId}`)
   .then(handleErrors)
   .then(data => {
-      console.log("Fetch user: ", data)
       return data.user;
     }
   ).catch(error => console.log('Error: ', error))
@@ -53,7 +52,6 @@ export async function fetchBookingsIndex(userId) {
     return await fetch(`/api/bookings/${userId}`)
     .then(handleErrors)
     .then(data => {
-      console.log("Bookings data: ", data)
         let bookings = data.bookings
         const descBookings = bookings.slice().sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
         const ascBookings = descBookings.slice().sort((a, b) => new Date(a.start_date) - new Date(b.start_date))
@@ -102,8 +100,6 @@ export const initiateStripeUpdate = async (booking_id) => {
   }))
   .then(handleErrors)
   .then(async response => {
-    console.log('Resopse: ', response);
-
     const stripe = await loadStripe(`${process.env.STRIPE_PUBLISHABLE_KEY}`);
     stripe.redirectToCheckout({
       // Make the id field from the Checkout Session creation API response
@@ -153,7 +149,6 @@ export const updateProfile = async (user, data) => {
   return await fetch(url, safeCredentials(apiRequest))
   .then(handleErrors)
   .then(data => { 
-    console.log("updatre data: ", data)
     return (data.user.success) ? data.user : false 
   }).catch(error => console.log("Error: ", error))   
 }
@@ -206,7 +201,6 @@ export async function fetchUserProperties(userId) {
   return await fetch(`/api/host/properties/${userId}`)
   .then(handleErrors)
   .then(data => {
-    console.log("User Properties data: ", data)
     return data.properties
       //let bookings = data.bookings
       //const descBookings = bookings.slice().sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
@@ -227,7 +221,6 @@ export async function createListing(id, data) {
   }
   return await fetch(url, safeCredentials(apiRequest))
   .then(response => response.json()).then(data => { 
-      console.log(data)
       return data
   }).catch(error => { 
       console.log("Error: ", error)
@@ -247,7 +240,6 @@ export const updateListing = async (propId, data) => {
   return await fetch(url, safeCredentials(apiRequest))
   .then(handleErrors)
   .then(data => { 
-    console.log("updatre data: ", data)
     return (data.property.success) ? true : false 
   }).catch(error => console.log("Error: ", error))   
 }
@@ -264,7 +256,6 @@ export const updateListingImg = async (propId, formdata) => {
   return await fetch(url, safeImgCredentials(apiRequest))
   .then(handleErrors)
   .then(data => { 
-    console.log("Listing Update Data: ", data)
     return (data.property.success) ? true : false
   }).catch(error => console.log("Error: ", error))   
 }
@@ -273,7 +264,6 @@ export async function fetchHostBookingsIndex(userId) {
   return await fetch(`/api/host/bookings`)
   .then(handleErrors)
   .then(data => {
-    console.log("Host Bookings data: ", data)
     return data
     }
   )

@@ -3,7 +3,6 @@ import { fetchBookingsIndex, Spinner } from '@utils/tools';
 import { useAuth } from '@utils/authContext';
 import { BookingTable } from '@utils/bookingTable';
 
-
 import '../home.scss';
 
 

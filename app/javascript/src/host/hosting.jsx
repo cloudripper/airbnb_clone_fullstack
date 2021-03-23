@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { authenticate, fetchBookingsIndex, subscribeHost } from '@utils/tools';
-import { Trips } from '@src/guest/trips';
+import React, { useState, useRef } from 'react';
+import { subscribeHost } from '@utils/tools';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@utils/authContext';
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { authenticate, fetchBooking, Spinner } from '@utils/tools';
-import { Redirect, useHistory, Link } from 'react-router-dom';
-import { initiateStripeCheckout, initiateStripeRefund, initiateStripeUpdate } from '@utils/tools';
-import { handleErrors, safeCredentials } from '@utils/fetchHelper';
+import { useHistory, Link } from 'react-router-dom';
+import { initiateStripeRefund, initiateStripeUpdate } from '@utils/tools';
+import { handleErrors } from '@utils/fetchHelper';
 
 
 
@@ -10,10 +10,6 @@ export const BookingSuccess = (props) => {
     const { match: { params }} = props
     const [ checkIn, setCheckIn ] = useState(null)
     const [ checkOut, setCheckOut ] = useState(null)
-    const [ totalPaid, setTotalPaid ] = useState(null)
-    const [ property, setProperty ] = useState(null)
-    const [ propertyDesc, setPropertyDesc ] = useState(null)
-    const [ propertyHost, setPropertyHost ] = useState(null)
     const [ loaded, setLoaded ] = useState(false)
     const [ user, setUser ] = useState(false)
     const [ booking, setBooking ] = useState(null)
@@ -95,7 +91,7 @@ export const BookingSuccess = (props) => {
                     <p className="flex-item">Order Number: {booking.id}</p>
                 </div>
             </div>
-            <div className="row">
+            <div className="row mb-5 pb-3">
                 <div className="col-12 col-md-9 col-lg-6 mx-auto my-4">
                     <div className="border rounded p-4 d-flex justify-content-around align-items-center">
                             <div className="flex-item ">

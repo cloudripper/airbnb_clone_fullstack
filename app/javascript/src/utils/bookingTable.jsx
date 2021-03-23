@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { sortArray, destroyBooking, initiateStripeRefund } from '@utils/tools';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -31,14 +31,12 @@ export const BookingTable = (props) => {
 
     async function handleDeleteConfirm(e) {
         e.stopPropagation()
-        console.log("confirm")
         const bookingId = $(e.target).closest("tr").attr("value")
 
         if (display == "Guest") {
             const refund = await initiateStripeRefund(bookingId)
             if (await refund.success) {
                 const booking = await destroyBooking(bookingId)    
-                console.log(booking)
                 handleBookings()
             }
         }
@@ -47,7 +45,6 @@ export const BookingTable = (props) => {
             const refund = await initiateStripeRefund(bookingId)
             if (await refund.success) {
                 const booking = await destroyBooking(bookingId)    
-                console.log(booking)
                 handleBookings()
             }
         }

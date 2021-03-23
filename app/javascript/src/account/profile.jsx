@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Trips } from '@src/guest/trips';
 import { Link } from 'react-router-dom';
-import { authenticate, fetchBooking, destroyBooking, fetchUser, MiniSpinner, updateProfileImg, updateProfile, Spinner } from '@utils/tools';
-import { useAuth, AuthContext } from '@utils/authContext';
+import { fetchUser, MiniSpinner, updateProfileImg, updateProfile, Spinner } from '@utils/tools';
+import { useAuth } from '@utils/authContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUser, faAward } from '@fortawesome/free-solid-svg-icons'
 import { faTimesCircle, faCheckCircle } from '@fortawesome/free-regular-svg-icons'
-import { fas } from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -20,7 +17,6 @@ export const Profile = (props) => {
 
 const SelfProfile = (props) => {
     const user = useAuth()
-    const [ identity, setIdentity ] = useState(null)
     const [ username, setUsername ] = useState(user.username)
     const [ email, setEmail ] = useState(user.email)
     const [ phone, setPhone ] = useState(null)
@@ -35,7 +31,6 @@ const SelfProfile = (props) => {
 
     useEffect(() => {
         profileUser()
-        console.log(user.image)
     }, [])
 
      function profileUser() {
@@ -60,7 +55,7 @@ const SelfProfile = (props) => {
         itemArray.push(user.last_name)
         itemArray.push(user.phone)
         itemArray.push(user.bio)
-        itemArray.push(user.image[0].image)
+        itemArray.push((user.image[0]) ? user.image[0].image : null)
         console.log(itemArray)
         let count = 0 
         for (let i = 0; i < itemArray.length; i++) {
@@ -181,10 +176,8 @@ const SelfProfile = (props) => {
 
 const VisitProfile = (props) => {
     const [ visitUser, setVisitUser ] = useState(null)
-    const [ identity, setIdentity ] = useState(null)
     const [ username, setUsername ] = useState(null)
     const [ email, setEmail ] = useState(null)
-    const [ phone, setPhone ] = useState(null)
     const [ bio, setBio ] = useState(null)
     const [ firstName, setFirstName ] = useState(null)
     const [ lastName, setLastName ] = useState(null)
@@ -196,7 +189,6 @@ const VisitProfile = (props) => {
 
 
     useEffect(() => {
-        console.log(props.userId)
         profileUser()
     }, [])
 
@@ -224,8 +216,7 @@ const VisitProfile = (props) => {
         itemArray.push(user.last_name)
         itemArray.push(user.phone)
         itemArray.push(user.bio)
-        itemArray.push(user.image[0].image)
-        console.log(itemArray)
+        itemArray.push((user.image[0]) ? user.image[0].image : null)
         let count = 0 
         for (let i = 0; i < itemArray.length; i++) {
             if (itemArray[i] == null) {

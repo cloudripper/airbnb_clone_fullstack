@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { authenticate, Spinner } from '@utils/tools';
 import { handleErrors, safeCredentials } from '@utils/fetchHelper';
 
@@ -14,7 +14,6 @@ export const AuthProvider = (props) => {
     const [ errorMsg, setErrorMsg ] = useState(false)
 
     useLayoutEffect(() => {
-       // setIsPending(false)
         handleLogin()
     }, [])
     
@@ -24,7 +23,7 @@ export const AuthProvider = (props) => {
             setErrorMsg("Oops. Error loading page.")  
             return
         } else if (await auth.authenticated) {
-            console.log("auth success ", auth)
+            //console.log("auth success ", auth)
             setUser(auth)
             setLoaded(true)
         } else {

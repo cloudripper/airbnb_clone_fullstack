@@ -7,9 +7,6 @@ import '../property/property.scss';
 
 export const NewListing = (props) => {
     const user = useAuth()
-    const [ properties, setProperties ] = useState(null)
-    const [ loading, setLoading ] = useState(true)
-    const [ next_page, setNext_Page ] = useState(null)
     const [ error, setError ] = useState(null)
     const [ uploading, setUploading ] = useState(false)
     
@@ -22,10 +19,6 @@ export const NewListing = (props) => {
         return setError(<small className="text-danger"><i>Image file size too large. Please choose an image with a max file size of 1.5MB.</i></small>)
       } 
       setUploading(true)
-
-      console.log('e target: ', form)
-      //console.log('e target: ', form[10].files[0].name)
-
     
       const data = {
         title: form[0].value,
@@ -43,7 +36,7 @@ export const NewListing = (props) => {
           username: user.username
           } 
       }
-      console.log('data: ', data)
+
       const listing = await createListing(user.user_id, data)
       if (await listing.property) {
         console.log('success')

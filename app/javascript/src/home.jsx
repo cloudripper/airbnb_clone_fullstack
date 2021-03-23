@@ -1,7 +1,5 @@
 // home.jsx
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Layout from '@src/layout';
 import { handleErrors } from '@utils/fetchHelper';
 import { Spinner } from '@utils/tools';
 
@@ -33,10 +31,6 @@ export class Home extends React.Component {
 
     
   }
-
-  //componentWillUnmount() {
-  //  this.setState({loading: true})
-  //}
 
   loadMore = () => {
     if (this.state.next_page === null) {
