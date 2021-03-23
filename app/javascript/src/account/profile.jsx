@@ -55,8 +55,7 @@ const SelfProfile = (props) => {
         itemArray.push(user.last_name)
         itemArray.push(user.phone)
         itemArray.push(user.bio)
-        itemArray.push((user.image) ? user.image[0].image : null)
-        console.log(itemArray)
+        itemArray.push((user.image) ? user.image[0].image : null) 
         let count = 0 
         for (let i = 0; i < itemArray.length; i++) {
             if (itemArray[i] == null) {
