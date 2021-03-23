@@ -41,7 +41,7 @@ const SelfProfile = (props) => {
         setBio((user.bio) ? user.bio : null)
         setFirstName((user.first_name) ? user.first_name : user.username)
         setLastName((user.last_name) ? user.last_name : null)
-        setImage((user.image[0]) ? user.image[1].image : "https://via.placeholder.com/300x400")
+        setImage((user.image) ? user.image[1].image : "https://via.placeholder.com/300x400")
         const dateObj = new Date(user.created_at)
         setCreated(dateObj.getFullYear())
         setLoading(true)
@@ -55,7 +55,7 @@ const SelfProfile = (props) => {
         itemArray.push(user.last_name)
         itemArray.push(user.phone)
         itemArray.push(user.bio)
-        itemArray.push((user.image[0]) ? user.image[0].image : null)
+        itemArray.push((user.image) ? user.image[0].image : null)
         console.log(itemArray)
         let count = 0 
         for (let i = 0; i < itemArray.length; i++) {
@@ -71,7 +71,7 @@ const SelfProfile = (props) => {
     }
 
     function loadImage() {             
-        if (user.image[0]) {
+        if (user.image) {
             let propImg = new Image()
             
             propImg.onload = () => {
@@ -201,7 +201,7 @@ const VisitProfile = (props) => {
         setUsername(await profUser.username)
         setEmail(await profUser.email)
         setCreated(await dateObj.getFullYear())
-        setImage(await (profUser.image[0]) ? profUser.image[1].image : null)
+        setImage(await (profUser.image) ? profUser.image[1].image : null)
         setBio(await (profUser.bio) ? profUser.bio : null)
         setFirstName(await (profUser.first_name) ? profUser.first_name : profUser.username)
         setLastName(await (profUser.last_name) ? profUser.last_name : null)
@@ -216,7 +216,7 @@ const VisitProfile = (props) => {
         itemArray.push(user.last_name)
         itemArray.push(user.phone)
         itemArray.push(user.bio)
-        itemArray.push((user.image[0]) ? user.image[0].image : null)
+        itemArray.push((user.image) ? user.image[0].image : null)
         let count = 0 
         for (let i = 0; i < itemArray.length; i++) {
             if (itemArray[i] == null) {
@@ -232,7 +232,7 @@ const VisitProfile = (props) => {
 
     function loadImage(user) {             
         console.log(user)
-        if (user.image[0]) {
+        if (user.image) {
             let propImg = new Image()
             
             propImg.onload = () => {

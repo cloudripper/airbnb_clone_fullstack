@@ -107,7 +107,7 @@ export const UnauthLayout = (props) => {
             })()} 
           </nav>
           {props.children}
-          <footer id="footer" className="p-3 mt-5 bg-light fixed-bottom">
+          <footer id="footer" className="p-3 bg-light fixed-bottom">
           <div className="row">
               <p className="ml-3 mb-0 text-secondary">Airbnb Clone</p>
               <p className="ml-auto mr-3 mb-0 text-secondary">VertWild Labs 2021</p>
