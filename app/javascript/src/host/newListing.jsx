@@ -15,9 +15,13 @@ export const NewListing = (props) => {
     
     
     async function handleSubmit(e) {
-      e.preventDefault()  
-      setUploading(true)
+      e.preventDefault()
       const form = e.target
+      const imageFile = form[10].files[0]  
+      if (imageFile.size > 1500000) {
+        return setError(<small className="text-danger"><i>Image file size too large. Please choose an image with a max file size of 1.5MB.</i></small>)
+      } 
+      setUploading(true)
 
       console.log('e target: ', form)
       //console.log('e target: ', form[10].files[0].name)
@@ -44,7 +48,6 @@ export const NewListing = (props) => {
       if (await listing.property) {
         console.log('success')
         
-        const imageFile = form[10].files[0]
         const formData = new FormData()
         formData.append('property[images]', imageFile, imageFile.name)
               
@@ -128,7 +131,7 @@ export const NewListing = (props) => {
                 </div>  
               </div>
               <div className="form-group">
-                <label>Listing Profile Photo</label>
+                <label>Listing Profile Photo<br/><small className="text-danger">(Max File Size: 1.5 MB)</small></label>
                 <input className="form-control" type="file" id="addImg" placeholder="Listing Profile Photo" accept="image/*" required />
               </div>  
               <button className="btn bg-dark text-light">Submit</button>

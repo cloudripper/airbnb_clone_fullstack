@@ -76,8 +76,8 @@ export class Home extends React.Component {
               return (
                 <div key={property.id} className="col-6 col-lg-4 mb-4 property">
                   <a href={`/property/${property.id}`} className="text-body text-decoration-none">
-                    <div className="property-image mb-1 rounded" id={property.id} style={{ backgroundImage: `url(${bgImg})` }}>
-                      <img className="homePropImage" onLoad={()=> $(".homePropImage").addClass("img-visible") } src={fillImg} />
+                    <div className="property-image mb-1 styleContainer" id={property.id} style={{ backgroundImage: `url(${bgImg})` }}>
+                      <img className="homePropImage styleContainer" onLoad={()=> $(".homePropImage").addClass("img-visible") } src={fillImg} />
                     </div>
                     <p className="text-uppercase mb-0 text-secondary"><small><b>{property.city}</b></small></p>
                     <h6 className="mb-0">{property.title}</h6>
@@ -89,9 +89,9 @@ export class Home extends React.Component {
           </div>
           {loading && <Spinner error={error} />}
           {(loading || next_page === null) ||
-          <div className="text-center">
+          <div className="text-center mb-5 pb-3">
             <button
-              className="btn btn-light mb-4"
+              className="btn btn-light mb-4 styleContainer"
               onClick={this.loadMore}
             >load more</button>
           </div>

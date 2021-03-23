@@ -87,13 +87,13 @@ export const BookingTable = (props) => {
 
     return (
         <div className="container"> 
-            <div className="bookingListLayout bg-dark text-light mt-4 pt-4 pb-5">
+            <div className="bookingListLayout light text-dark mt-4 pt-4 pb-5">
                 <div className="col-10 px-0 mx-auto row">
                     <p style={{ fontWeight: "700", fontSize: "1.5rem" }}>{(display == "Host") ? "Guest Bookings: " : "Your Trips: "}</p>
                 </div>        
-            <div className="row">
-            <div className="mt-2 col-10 mx-auto border rounded bg-light pt-4 pb-0 px-4">
-                <table className="table table-sm table-hover">
+            <div className="row mb-5 pb-5">
+            <div className="mt-2 col-10 mx-auto border styleContainer rounded bg-light pt-4 pb-0 px-4">
+                <table className="table table-responsive-lg table-sm table-hover styleContainer pb-3  pb-lg-0">
                     <thead>
                         <tr>
                             <th scope="col">Item</th>

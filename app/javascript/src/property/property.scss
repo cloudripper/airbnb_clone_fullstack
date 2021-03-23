@@ -12,10 +12,7 @@
   font-size: 2.2rem;
 }
 
-.hostProperty {
-  height: 150px;
-  width: 150px;
-}
+///BOOKING TABLE///
 
 .bookingListLayout {
   border-radius: 15px;
@@ -47,3 +44,23 @@
   color:#1b3670a4;
   font-size: 0.8rem;
 }
+///END BOOKING TABLE///
+
+
+/// HOST LISTINGS ///
+
+#hostListing {
+  border-radius: 100%;
+  width: 45px; 
+  height: 45px; 
+  object-fit: cover;
+  object-position: 50% 50%; 
+  border: 1px solid #1b367073;
+}
+
+.hostProperty {
+  height: 150px;
+  width: 150px;
+}
+
+///END HOST LISTINGS ///

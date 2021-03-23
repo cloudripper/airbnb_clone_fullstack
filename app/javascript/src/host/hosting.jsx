@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { authenticate, fetchBookingsIndex, subscribeHost } from '@utils/tools';
 import { Trips } from '@src/guest/trips';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@utils/authContext';
 
 
@@ -10,48 +10,21 @@ export const Hosting = (props) => {
     const [ isHost, setIsHost ] = useState((user) ? user.host_status : null)
     const [ isAuth, setIsAuth ] = useState((user) ? user.authenticated : null)
 
-    useEffect(() => {
-     //   let isMounted = true;
-     //   authenticate().then(auth => { 
-     //       if (isMounted) loadHost(auth)
-     //   })
-     //   return () => { isMounted = false };
-    }, [])
-
-    //async function loadHost(auth) {
-   //     if (auth.authenticated && auth.host_status) {
-   //         setIsHost(true)
-   //     }   else {
-   //         console.log("Not Host")
-   //     }
-   //     setIsAuth(auth.authenticate)
-    //}
-
-
-    //function becomeHost() {
-    //    if (isAuth) {
-//
-    //    } else {
-    //        console.log('not auth')
-    //    }
-    //}
-
-
     if (isHost) {
         return (
             <div className="container vh-100">
-                <h1 className="mt-5 mr-auto">Listings Dashboard</h1>
-                <p className="mb-4 mr-auto">{user.username}, {user.email} - <Link to={`/users/show/${user.user_id}`}>Go to Profile</Link></p>
-                <div className="d-flex justify-content-center">
-                    <Link to={`/hosting/${user.user_id}/listings`} className="text-decoration-none text-dark"><div className="flex-item border rounded bg-light mx-2 px-2 py-2" >
+                <h1 className="mt-5 mr-auto font-weight-bold">Listings Dashboard</h1>
+                <p className="mb-4 mr-auto"><b>{user.username}</b>, {user.email} - <Link className="linkStyle" to={`/users/show/${user.user_id}`}>Go to Profile</Link></p>
+                <div className="d-flex justify-content-center justify-content-sm-left justify-content-lg-center flex-wrap mb-5 pb-3">
+                    <Link to={`/hosting/${user.user_id}/listings`} className="text-decoration-none text-dark flex-item dashItem bg-light mx-2 px-2 py-2 my-2 my-md-0">
                         <p className="mx-auto" style={{ fontWeight: "700" }}>Listings</p>
                         <p>Upcoming Bookings: --</p>
                         <p>Total Properties Listed: --</p>
-                    </div></Link>
-                    <Link to={`/hosting/${user.user_id}/bookings`} className="text-decoration-none text-dark"><div className="flex-item border rounded bg-light mx-2 px-2 py-2" >
+                    </Link>
+                    <Link to={`/hosting/${user.user_id}/bookings`} className="text-decoration-none text-dark flex-item dashItem bg-light mx-2 px-2 py-2 my-2 my-md-0">
                         <p className="mx-auto" style={{ fontWeight: "700" }}>Manage Bookings</p>
                         <p>Calendar</p>
-                    </div></Link>
+                    </Link>
                 </div>
             </div>
         )
@@ -81,22 +54,6 @@ export const BecomeHost = (props) => {
     const user = useAuth()
     const isAccept = useRef(null)
     const [ isAuth, setIsAuth ] = useState((user) ? user.authenticated : false)
-
-    useEffect(() => {
-//        let isMounted = true;
-//        authenticate().then(auth => { 
-//            if (isMounted) {
-//                if (auth.authenticated) {
-//                    setIsAuth(true)
-//                    //setIsAuth(auth.authenticated) 
-//                } else {
-//                    
-//                } 
-//            }
-//        })
-//        return () => { isMounted = false };
-    }, [])
-
 
     function handleSubmit(e) {
         e.preventDefault()

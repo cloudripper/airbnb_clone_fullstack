@@ -1,4 +1,15 @@
+body {
+  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif !important;
+  font-size: 500px;
+  line-height: 1.43;
+  color: #484848;
+  background-color: #fff;
+}
 //NAVBAR
+.navStyle {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 8px !important;
+}
+
 .navProfile {
   display: inline-flex !important;
   color: #717171;
@@ -11,6 +22,7 @@
   align-items: center !important;
   vertical-align: middle !important;
   padding: 5px 5px 5px 12px !important;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 8px !important;
 }
 
 #loginNav {
@@ -40,7 +52,7 @@
   height: 30px; 
   object-fit: cover;
   object-position: 50% 50%; 
-  border: 2px solid #1b367073;
+  border: 1px solid #1b367073;
 }
 
 #usrBars {
@@ -52,7 +64,18 @@
 }
 //END NAVBAR
 
-//PROFILE IMAGE//
+//GENERAL STYLING //
+.linkStyle{
+  color: #008489 !important;
+  font-weight: 700px !important;
+}
+.styleContainer {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 8px !important;
+  border-radius: 8px !important;
+}
+// END GENERAL STYLING //
+
+//PROFILE//
 
 #avatarProfile {
   height: 25%;
@@ -61,6 +84,12 @@
 }
 
 
+
+#avatarImg {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 8px !important;
+}
+//END PROFILE//
+
 //PROPERTY LISTING
 .property {
   .property-image {
@@ -68,10 +97,6 @@
     background-position: center;
   }
 }
-
-//.propListing {
-//  padding-top: calc(2 / 3 * 100%); /* aspect ratio 3:2 */
-//}
 
 .homePropImage {
   object-fit: cover; 
@@ -127,9 +152,10 @@
 
 // FOOTER 
 #footer {
-  position: relative;
-  bottom: 0;
-  width: 100%
+//  position: relative;
+//  bottom: 0;
+//  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 8px !important;  
 }
 // END FOOTER 
 
@@ -157,3 +183,21 @@
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 // END TRIPS
+
+
+
+
+///ACCOUNT DASHBOARD ///
+.dashItem {
+  max-width: 300px;
+  min-width: 200px;  
+  max-height: 200px;
+  min-height: 125px;
+  border-radius: 8px !important;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 8px !important;
+}
+
+.dashItem:hover {
+  background-color: #f8f9fa !important;
+}
+//END ACCOUNT DASHBOARD ///

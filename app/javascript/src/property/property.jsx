@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import Layout from '@src/layout';
 import { handleErrors } from '@utils/fetchHelper';
 import { Link } from 'react-router-dom';
+import { Spinner } from '@utils/tools';
 
 import BookingWidget from './bookingWidget';
 
@@ -39,7 +40,7 @@ class Property extends React.Component {
   render () {
     const { property, loading } = this.state;
     if (loading) {
-      return <p>loading...</p>;
+      return <Spinner/>;
     };
 
     const {
@@ -59,7 +60,7 @@ class Property extends React.Component {
     } = property
 
     return (
-      <>
+      <div className>
         <div className="property-image mb-3" style={{ backgroundImage: `url(${this.state.image})` }}>
           {(() => { 
             let imageSrc = ''
@@ -100,7 +101,7 @@ class Property extends React.Component {
               </div>
             </div>
         </div>
-      </>
+      </div>
     )
   }
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { authenticate, fetchBooking, destroyBooking } from '@utils/tools';
+import { authenticate, fetchBooking, Spinner } from '@utils/tools';
 import { Redirect, useHistory, Link } from 'react-router-dom';
 import { initiateStripeCheckout, initiateStripeRefund, initiateStripeUpdate } from '@utils/tools';
 import { handleErrors, safeCredentials } from '@utils/fetchHelper';
@@ -83,7 +83,7 @@ export const BookingSuccess = (props) => {
 //LOAD 
     if (loaded) {
         return (
-            <div className="container vh-100" key={key}>
+            <div className="container" key={key}>
             <div className="mt-4">
                 <p style={{ fontWeight: "700", fontSize: "1.5rem" }}>{bookingStatus}: 2 Nights in {booking.prop_city}, {booking.prop_country}</p>
                 <div className="d-flex justify-content-between">
@@ -111,7 +111,7 @@ export const BookingSuccess = (props) => {
                     <div className="border rounded p-4">
                             <div>
                             <p style={{ fontWeight: "700", fontSize: "1.2rem" }}>{booking.prop_type}</p>
-                                <Link to={`/property/${booking.property_id}`}>{booking.prop_title}</Link>
+                                <Link className="linkStyle" to={`/property/${booking.property_id}`}>{booking.prop_title}</Link>
                                 <p className="mt-3">1234 Fake St., {booking.prop_city}</p>
                                 <p>Hosted by: {booking.prop_host}</p> 
                                 <p>Contact: {booking.prop_host_contact}</p> 
@@ -126,7 +126,7 @@ export const BookingSuccess = (props) => {
                             <p className="flex-item mr-2">{charge}</p>
                         </div>
                         <div className="d-flex justify-content-between">
-                            <p className="flex-item ml-2">Airbnb service fee (includes <a href="#">VAT</a>)</p>
+                            <p className="flex-item ml-2">Airbnb service fee (includes VAT)</p>
                             <p className="flex-item mr-2">0.00</p>
                         </div>
                         <div className="d-flex justify-content-between">
@@ -164,6 +164,6 @@ export const BookingSuccess = (props) => {
             </div>
         )
     } else {
-        return <p>Loading</p>
+        return <Spinner />
     }
 }
