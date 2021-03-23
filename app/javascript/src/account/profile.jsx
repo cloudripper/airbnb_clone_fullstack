@@ -41,7 +41,7 @@ const SelfProfile = (props) => {
         setBio((user.bio) ? user.bio : null)
         setFirstName((user.first_name) ? user.first_name : user.username)
         setLastName((user.last_name) ? user.last_name : null)
-        setImage((user.image) ? user.image[1].image : "https://via.placeholder.com/300x400")
+        setImage((user.image.length != 0) ? user.image[1].image : "https://via.placeholder.com/300x400")
         const dateObj = new Date(user.created_at)
         setCreated(dateObj.getFullYear())
         setLoading(true)
@@ -55,7 +55,7 @@ const SelfProfile = (props) => {
         itemArray.push(user.last_name)
         itemArray.push(user.phone)
         itemArray.push(user.bio)
-        itemArray.push((user.image) ? user.image[0].image : null) 
+        itemArray.push((user.image.length != 0) ? user.image[0].image : null) 
         let count = 0 
         for (let i = 0; i < itemArray.length; i++) {
             if (itemArray[i] == null) {
@@ -70,14 +70,13 @@ const SelfProfile = (props) => {
     }
 
     function loadImage() {             
-        if (user.image) {
-            let propImg = new Image()
-            
-            propImg.onload = () => {
-                setImage(propImg.src)
-                propImg = null
+        if (user.image.length != 0) {
+            let profImg = new Image()
+            profImg.onload = () => {
+                setImage(profImg.src)
+                profImg = null
             }
-            propImg.src = user.image[0].image
+            profImg.src = user.image[0].image
         }
     }
 
@@ -87,8 +86,8 @@ const SelfProfile = (props) => {
         
         const imageFile = e.target.files[0]
         console.log(imageFile.size)
-        if (imageFile.size > 1500000) {
-            return setUpload(<small><i>Image file size too large. Please choose an image with a max file size of 1.5MB.</i></small>)
+        if (imageFile.size > 2000000) {
+            return setUpload(<small><i>Image file size too large. Please choose an image with a max file size of 2.0MB.</i></small>)
         } 
         setUpload(<MiniSpinner/>)
         const formData = new FormData()
@@ -115,13 +114,13 @@ const SelfProfile = (props) => {
                     <div className="col-12 col-md-4 mb-md-5 pb-md-5" >
                         <div className="mx-5 mb-3 mb-md-0 mx-md-0 border p-4 styleContainer">
                             <img className="mx-auto d-block img img-fluid mb-4 rounded align-self-center" id="avatarImg" src={`${image}`} />
-                            <p>{upload}</p>
-                            <div className="dropdown text-center text-md-left">
+                            {upload}
+                            <div className="dropdown text-center text-md-left mt-2">
                                 <button className="ml-xl-4 btn btn-sm btn-secondary dropdown-toggle" type="button" id="profileDropDown" data-toggle="dropdown" aria-expanded="false">Update Photo</button>
                                 <ul className="dropdown-menu py-3 px-3" aria-labelledby="profileDropDown">
                                     <form onChange={handleSubmit} >
                                         <div className="form-group mb-0 ">
-                                            <li className="text-center mb-3 font-weight-bold "><label>Select a profile image to upload <br/><small>(Max File Size: 1.5 MB)</small></label></li>
+                                            <li className="text-center mb-3 font-weight-bold "><label>Select a profile image to upload <br/><small>(Max File Size: 2.0 MB)</small></label></li>
                                             <li className="text-center mb-3 mx-2"><input className="form-control" type="file" id="profilePhoto" accept="image/*" /></li>
                                             <li className="text-center mb-0"><button className="ml-auto">Submit</button></li>
                                         </div>
@@ -135,7 +134,7 @@ const SelfProfile = (props) => {
                                 <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(user.first_name) ? "text-success" : "text-danger"} icon={(user.first_name) ? faCheckCircle : faTimesCircle} /></span> First Name</p>
                                 <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(user.last_name) ? "text-success" : "text-danger"} icon={(user.last_name) ? faCheckCircle : faTimesCircle} /></span> Last Name</p>
                                 <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(user.phone) ? "text-success" : "text-danger"} icon={(user.phone) ? faCheckCircle : faTimesCircle} /></span> Phone Number</p>
-                                <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(user.image[0].image) ? "text-success" : "text-danger"} icon={(user.image[0].image) ? faCheckCircle : faTimesCircle} /></span> Profile Photo</p>
+                                <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(user.image.length != 0) ? "text-success" : "text-danger"} icon={(user.image.length != 0) ? faCheckCircle : faTimesCircle} /></span> Profile Photo</p>
                                 <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(user.bio) ? "text-success" : "text-danger"} icon={(user.bio) ? faCheckCircle : faTimesCircle} /></span> Bio/Description</p>
                                 <p className="mt-2 font-italic">Confirming profile info helps keep the Airbnb community secure.</p>
                             </div>
@@ -161,7 +160,7 @@ const SelfProfile = (props) => {
                             <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(user.first_name) ? "text-success" : "text-danger"} icon={(user.first_name) ? faCheckCircle : faTimesCircle} /></span> First Name</p>
                             <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(user.last_name) ? "text-success" : "text-danger"} icon={(user.last_name) ? faCheckCircle : faTimesCircle} /></span> Last Name</p>
                             <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(user.phone) ? "text-success" : "text-danger"} icon={(user.phone) ? faCheckCircle : faTimesCircle} /></span> Phone Number</p>
-                            <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(user.image[0].image) ? "text-success" : "text-danger"} icon={(user.image[0].image) ? faCheckCircle : faTimesCircle} /></span> Profile Photo</p>
+                            <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(user.image.length != 0) ? "text-success" : "text-danger"} icon={(user.image.length != 0) ? faCheckCircle : faTimesCircle} /></span> Profile Photo</p>
                             <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(user.bio) ? "text-success" : "text-danger"} icon={(user.bio) ? faCheckCircle : faTimesCircle} /></span> Bio/Description</p>
                             <p className="mt-2 font-italic">Confirming profile info helps keep the Airbnb community secure.</p>
                         </div>
@@ -200,7 +199,7 @@ const VisitProfile = (props) => {
         setUsername(await profUser.username)
         setEmail(await profUser.email)
         setCreated(await dateObj.getFullYear())
-        setImage(await (profUser.image) ? profUser.image[1].image : null)
+        setImage(await (profUser.image.length != 0) ? profUser.image[1].image : null)
         setBio(await (profUser.bio) ? profUser.bio : null)
         setFirstName(await (profUser.first_name) ? profUser.first_name : profUser.username)
         setLastName(await (profUser.last_name) ? profUser.last_name : null)
@@ -215,7 +214,7 @@ const VisitProfile = (props) => {
         itemArray.push(user.last_name)
         itemArray.push(user.phone)
         itemArray.push(user.bio)
-        itemArray.push((user.image) ? user.image[0].image : null)
+        itemArray.push((user.image.lenth != 0) ? user.image[0].image : null)
         let count = 0 
         for (let i = 0; i < itemArray.length; i++) {
             if (itemArray[i] == null) {
@@ -230,8 +229,7 @@ const VisitProfile = (props) => {
     }
 
     function loadImage(user) {             
-        console.log(user)
-        if (user.image) {
+        if (user.image.length != 0) {
             let propImg = new Image()
             
             propImg.onload = () => {
@@ -263,7 +261,7 @@ const VisitProfile = (props) => {
                                 <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(visitUser.first_name) ? "text-success" : "text-danger"} icon={(visitUser.first_name) ? faCheckCircle : faTimesCircle} /></span> First Name</p>
                                 <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(visitUser.last_name) ? "text-success" : "text-danger"} icon={(visitUser.last_name) ? faCheckCircle : faTimesCircle} /></span> Last Name</p>
                                 <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(visitUser.phone) ? "text-success" : "text-danger"} icon={(visitUser.phone) ? faCheckCircle : faTimesCircle} /></span> Phone Number</p>
-                                <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(visitUser.image[0].image) ? "text-success" : "text-danger"} icon={(visitUser.image[0].image) ? faCheckCircle : faTimesCircle} /></span> Profile Photo</p>
+                                <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(visitUser.image.length != 0) ? "text-success" : "text-danger"} icon={(visitUser.image.length != 0) ? faCheckCircle : faTimesCircle} /></span> Profile Photo</p>
                                 <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(visitUser.bio) ? "text-success" : "text-danger"} icon={(visitUser.bio) ? faCheckCircle : faTimesCircle} /></span> Bio/Description</p>
                                 <p className="mt-2 font-italic">Confirming profile info helps keep the Airbnb community secure.</p>
                             </div>
@@ -288,7 +286,7 @@ const VisitProfile = (props) => {
                             <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(visitUser.first_name) ? "text-success" : "text-danger"} icon={(visitUser.first_name) ? faCheckCircle : faTimesCircle} /></span> First Name</p>
                             <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(visitUser.last_name) ? "text-success" : "text-danger"} icon={(visitUser.last_name) ? faCheckCircle : faTimesCircle} /></span> Last Name</p>
                             <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(visitUser.phone) ? "text-success" : "text-danger"} icon={(visitUser.phone) ? faCheckCircle : faTimesCircle} /></span> Phone Number</p>
-                            <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(visitUser.image[0].image) ? "text-success" : "text-danger"} icon={(visitUser.image[0].image) ? faCheckCircle : faTimesCircle} /></span> Profile Photo</p>
+                            <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(visitUser.image.length != 0) ? "text-success" : "text-danger"} icon={(visitUser.image.length != 0) ? faCheckCircle : faTimesCircle} /></span> Profile Photo</p>
                             <p className="mt-2"><span className="mx-2"><FontAwesomeIcon className={(visitUser.bio) ? "text-success" : "text-danger"} icon={(visitUser.bio) ? faCheckCircle : faTimesCircle} /></span> Bio/Description</p>
                             <p className="mt-2 font-italic">Confirming profile info helps keep the Airbnb community secure.</p>
                         </div>

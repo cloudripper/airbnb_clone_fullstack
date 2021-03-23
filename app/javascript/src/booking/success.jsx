@@ -31,10 +31,8 @@ export const BookingSuccess = (props) => {
         const auth = await authenticate()
         const booking = await fetchBooking(auth.user_id, params.id)
         fetchCharge(auth.user_id, params.id)
-        console.log("BACKEND STATUS CHECK: ", booking.status)
         const today = Date.now()
         if (await booking) {
-            console.log("math: ", booking.charges)
             const start = new Date(booking.start_date)
             
             let switchStatus = ''
@@ -43,7 +41,6 @@ export const BookingSuccess = (props) => {
                 setUpcoming(true)
             }
             setChargeStatus((!booking.charge_status) ? 'No payment' : booking.charge_status)
-            console.log("Charge Status: ", booking.charge_status)
             setBooking(booking)
             setUser(auth.username)
             setCheckIn(booking.start_date)
@@ -62,7 +59,6 @@ export const BookingSuccess = (props) => {
         return await fetch(`/api/charges/${bookingId}`)
         .then(handleErrors)
         .then(data => {
-            console.log("GET CHARGE: ", data)
             return data;
           }
         ).catch(error => console.log(error.message))

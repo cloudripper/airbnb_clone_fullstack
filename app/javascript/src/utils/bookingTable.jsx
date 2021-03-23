@@ -75,6 +75,7 @@ export const BookingTable = (props) => {
     function showAll() {
         setShowBookings("all")
         setKey(Math.random())
+        console.log(bookings)
     }
 
     function showUpcoming() {
@@ -82,14 +83,12 @@ export const BookingTable = (props) => {
         setKey(Math.random())
     }
 
-    return (
-        <div className="container"> 
-            <div className="bookingListLayout light text-dark mt-4 pt-4 pb-5">
-                <div className="col-10 px-0 mx-auto row">
-                    <p style={{ fontWeight: "700", fontSize: "1.5rem" }}>{(display == "Host") ? "Guest Bookings: " : "Your Trips: "}</p>
-                </div>        
-            <div className="row mb-5 pb-5">
-            <div className="mt-2 col-10 mx-auto border styleContainer rounded bg-light pt-4 pb-0 px-4">
+    const NoTable = () => {
+        return <div>No Bookings</div>
+    }
+
+    const Table = () => {
+        return ( 
                 <table className="table table-responsive-lg table-sm table-hover styleContainer pb-3  pb-lg-0">
                     <thead>
                         <tr>
@@ -100,7 +99,7 @@ export const BookingTable = (props) => {
                             {(display == "Host") ? <th scope="col"><span type="button" value="username" onClick={handleSort}><span className="noselect">Guest</span></span></th> : null}
                             <th scope="col"><span type="button" value="charge" onClick={handleSort}><span className="noselect">Payment</span></span></th>
                             <th scope="col"><span type="button" value="status" onClick={handleSort}><span className="noselect">Trip Status</span></span></th>
-                            {(display == "Host") ? <th scope="col"><span type="button" value="id" onClick={handleSort}><span className="noselect">Booking ID</span></span></th> : null}
+                            {(display == "Host") ? <th scope="col"><span type="button" value="id" onClick={handleSort}><span className="noselect">Total Value</span></span></th> : null}
                             <th scope="col"><span type="button" value="delete"><span className="noselect"></span></span></th>
                         </tr>
                     </thead>
@@ -112,6 +111,7 @@ export const BookingTable = (props) => {
                         const start = booking.start_date
                         const end = booking.end_date
                         const bookingId = booking.id
+                        const charge = booking.charge[0].amount
                         const guest = booking.username
                         const today = Date.now()
                         const weekOutlook = today + (86400000 * 7)
@@ -148,7 +148,7 @@ export const BookingTable = (props) => {
                                     {(display == "Host") ? <td>{guest}</td> : null}
                                     <td>{payStatus}</td>
                                     <td>{bookingStatus}</td>
-                                    {(display == "Host") ? <td>{bookingId}</td> : null}
+                                    {(display == "Host") ? <td>${charge}</td> : null}
                                     <td className="text-center noHover" id={`primBooking${bookingId}`} ><FontAwesomeIcon id="tableDelete" onClick={handleDelete} onMouseEnter={handleHoverOver} onMouseLeave={handleHoverOff}  type="button" icon={faTimesCircle} /></td>
                                     <td className="text-center d-none" id={`secBooking${bookingId}`}><button onClick={handleDeleteConfirm} onMouseEnter={handleHoverOver} onMouseLeave={handleHoverOff} className='py-0 deleteBtns btn btn-sm btn-danger mr-2'>Confirm</button><button onClick={handleDeleteCancel} className='py-0 deleteBtns btn btn-sm btn-secondary'>Cancel</button></td>
                                 </tr>
@@ -166,7 +166,7 @@ export const BookingTable = (props) => {
                                         {(display == "Host") ? <td>{guest}</td> : null}
                                         <td>{payStatus}</td>
                                         <td>{bookingStatus}</td>
-                                        {(display == "Host") ? <td>{bookingId}</td> : null}
+                                        {(display == "Host") ? <td>${charge}</td> : null}
                                         <td className="text-center noHover" id={`primBooking${bookingId}`} ><FontAwesomeIcon id="tableDelete" onClick={handleDelete} onMouseEnter={handleHoverOver} onMouseLeave={handleHoverOff}  type="button" icon={faTimesCircle} /></td>
                                     <td className="text-center d-none" id={`secBooking${bookingId}`}><button onClick={handleDeleteConfirm} onMouseEnter={handleHoverOver} onMouseLeave={handleHoverOff} className='py-0 deleteBtns btn btn-sm btn-danger mr-2'>Confirm</button><button onClick={handleDeleteCancel} className='py-0 deleteBtns btn btn-sm btn-secondary'>Cancel</button></td>
                                     </tr>
@@ -176,6 +176,22 @@ export const BookingTable = (props) => {
                     })}
                     </tbody>
                 </table>
+
+    )
+    }
+
+
+
+
+    return (
+        <div className="container"> 
+            <div className="bookingListLayout light text-dark mt-4 pt-4 pb-5">
+                <div className="col-10 px-0 mx-auto row">
+                    <p style={{ fontWeight: "700", fontSize: "1.5rem" }}>{(display == "Host") ? "Guest Bookings: " : "Your Trips: "}</p>
+                </div>        
+            <div className="row mb-5 pb-5">
+            <div className="mt-2 col-10 mx-auto border styleContainer rounded bg-light pt-4 pb-0 px-4">
+                {(bookings.length > 0) ? <Table/> : <NoTable/>}
                 <div className="d-flex mt-4 mb-4">
                     <button className="btn btn-sm bg-dark text-light ml-auto mr-2" onClick={showUpcoming}>Show Active</button>
                     <button className="btn btn-sm bg-dark text-light" onClick={showAll}>Show All</button>

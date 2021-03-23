@@ -284,6 +284,10 @@ export function MiniSpinner(props) {
   return <div className="miniSpinner"/>
 }
 
+export function UploadProgress(props) {
+  return <div className="miniSpinner"/>
+}
+
 
 ////////////SORT FUNCTION////////////
 

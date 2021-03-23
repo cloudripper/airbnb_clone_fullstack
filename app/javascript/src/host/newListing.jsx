@@ -15,8 +15,8 @@ export const NewListing = (props) => {
       e.preventDefault()
       const form = e.target
       const imageFile = form[10].files[0]  
-      if (imageFile.size > 1500000) {
-        return setError(<small className="text-danger"><i>Image file size too large. Please choose an image with a max file size of 1.5MB.</i></small>)
+      if (imageFile.size > 2000000) {
+        return setError(<small className="text-danger"><i>Image file size too large. Please choose an image with a max file size of 2.0MB.</i></small>)
       } 
       setUploading(true)
     
@@ -124,7 +124,7 @@ export const NewListing = (props) => {
                 </div>  
               </div>
               <div className="form-group">
-                <label>Listing Profile Photo<br/><small className="text-danger">(Max File Size: 1.5 MB)</small></label>
+                <label>Listing Profile Photo<br/><small className="text-danger">(Max File Size: 2.0 MB)</small></label>
                 <input className="form-control" type="file" id="addImg" placeholder="Listing Profile Photo" accept="image/*" required />
               </div>  
               <button className="btn bg-dark text-light">Submit</button>

@@ -36,12 +36,20 @@
 .focus-warning {
   border: 1px solid red !important;
 }
+///END BOOKING TABLE///@warn
+
+///EDIT LISTING////
+.imgEditIcon {
+  color: #1b3670a4;
+  font-size: 1.3rem;
+}
+
 
 .editIcon {
   color:#1b3670a4;
   font-size: 0.8rem;
 }
-///END BOOKING TABLE///
+///END EDIT LISTING///
 
 
 /// HOST LISTINGS ///
@@ -56,6 +64,10 @@
   object-fit: cover;
   object-position: 50% 50%; 
   border: 1px solid #1b367073;
+}
+
+#imgForm {
+  max-width: 400px;
 }
 
 .hostProperty {

@@ -55,7 +55,7 @@ class Property extends React.Component {
     } = property
 
     return (
-      <div className>
+      <div>
         <div className="property-image mb-3" style={{ backgroundImage: `url(${this.state.image})` }}>
           {(() => { 
             let imageSrc = ''

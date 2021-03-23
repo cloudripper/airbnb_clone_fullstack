@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { handleErrors } from '@utils/fetchHelper';
-import { Spinner, updateListing } from '@utils/tools';
+import { Spinner, updateListing, MiniSpinner, updateListingImg } from '@utils/tools';
 import { useAuth } from '@utils/authContext';
 import { Link, Redirect } from 'react-router-dom';
 import { BookingTable } from '../utils/bookingTable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import { faPencilAlt, faCamera } from '@fortawesome/free-solid-svg-icons'
 
 import '../property/property.scss';
 
@@ -17,6 +17,7 @@ export const ListingManagement = (props) => {
     const [ loading, setLoading ] = useState(true)
     const [ image, setImage ] = useState(true)
     const [ error, setError ] = useState(null)
+    const [ upload, setUpload ] = useState(null)
     const [ focus, setFocus ] = useState(null)
     const [ viewDisplay, setViewDisplay ] = useState("Host")
 
@@ -64,6 +65,29 @@ export const ListingManagement = (props) => {
       console.log(bookingObj)
       setBookings(await bookingObj)
       return (await bookingObj) ? true : false
+    }
+
+    async function handleImgSubmit(e) {
+      e.preventDefault()
+      if (e.target[0].files[0]) {
+        const imageFile = e.target[0].files[0]
+          if (imageFile.size > 2000000) {
+              return setError(<small><i>Image file size too large. Please choose an image with a max file size of 2.0MB.</i></small>)
+          } 
+          setUpload(<MiniSpinner/>)
+          const formData = new FormData()
+          formData.append('property[images]', imageFile, imageFile.name)
+          
+          const listingUpdate = await updateListingImg(property.id, formData)
+          
+          if (await listingUpdate) {
+              window.location=`/property/${property.id}`
+          } else {
+            console.log("Error: ", listing)
+            setError(String(listing))
+            setUploading(false)
+          }
+      }
     }
 
     function handleEdit(e) {
@@ -124,29 +148,42 @@ export const ListingManagement = (props) => {
     } else if (property.user.id == user.user_id ) {
       return (
             <>
+              
               <div className="property-image mb-3" style={{ backgroundImage: `url(${image})` }}>
                 {(() => { 
                   let imageSrc = property.image.array[0].image
                   return <img className="propImage" onLoad={()=> $(".propImage").addClass("img-visible") } src={imageSrc} />
                 })()} 
+                <div className="d-flex justify-content-end mb-2 mb-md-0">
+                  <span></span>
+                  <form className="flex-item mt-0 mt-lg-3 mr-2 mr-md-3 mr-lg-5 title-edit edit input-group input-group-sm d-none pb-2" id="imgForm" onSubmit={handleImgSubmit}>
+                    <div className="input-group-prepend">
+                      <span className="input-group-text" id="basic-addon1"><b>IMAGE</b><br/><small> (Max 2MB)</small></span>
+                    </div>
+                    <input className="form-control" type="file" id="profilePhoto" accept="image/*" />
+                    <button className="input-group-append btn btn-sm btn-success ml-1" type="submit">Edit</button>
+                    <button className="input-group-append btn btn-sm btn-secondary ml-1" type="button" onClick={handleEdit}>Cancel</button>
+                    <span>{upload}{error}</span>
+                  </form>
+                  <span className="flex-item mt-0 mt-md-3 mr-2 mr-md-3 mr-lg-5"><button className="btn btn-sm" onClick={handleEdit}><FontAwesomeIcon className="imgEditIcon" icon={faCamera} /></button></span>
+                </div>
               </div>
                 <div className="container">
                   <div className="row">
-                    <div className="info col-12 col-lg-8">
-              
+                    <div className="info col-12 col-lg-8 mt-3">
                       <div className="mb-3">
-                        <h3 className="mb-0">
-                          <span>{property.title}</span>
-                          <form className="title-edit edit input-group input-group-sm d-none pb-2" id="title" onSubmit={handleSubmit}>
-                            <div className="input-group-prepend">
-                              <span className="input-group-text" id="basic-addon1"><b>LISTING TITLE</b></span>
-                            </div>
-                            <input className="form-control" type="text" id="addTitle" maxLength="70" placeholder={`eg. ${property.title}`}  required />
-                            <button className="input-group-append btn btn-sm btn-success ml-1" type="submit">Edit</button>
-                            <button className="input-group-append btn btn-sm btn-secondary ml-1" type="button" onClick={handleEdit}>Cancel</button>
-                          </form>
-                          <span className="ml-2"><button className="btn btn-sm editBtn" onClick={handleEdit}><FontAwesomeIcon className="editIcon" icon={faPencilAlt} /></button></span>
-                        </h3>
+                          <h3 className="mb-0">
+                            <span>{property.title}</span>
+                            <form className="title-edit edit input-group input-group-sm d-none pb-2" id="title" onSubmit={handleSubmit}>
+                              <div className="input-group-prepend">
+                                <span className="input-group-text" id="basic-addon1"><b>LISTING TITLE</b></span>
+                              </div>
+                              <input className="form-control" type="text" id="addTitle" maxLength="70" placeholder={`eg. ${property.title}`}  required />
+                              <button className="input-group-append btn btn-sm btn-success ml-1" type="submit">Edit</button>
+                              <button className="input-group-append btn btn-sm btn-secondary ml-1" type="button" onClick={handleEdit}>Cancel</button>
+                            </form>
+                            <span className="ml-2"><button className="btn btn-sm editBtn" onClick={handleEdit}><FontAwesomeIcon className="editIcon" icon={faPencilAlt} /></button></span>
+                          </h3>
                         <div className="d-flex flex-row">
                           <div className="text-uppercase mb-0 text-secondary">
                             <span><small>{property.city}</small></span>

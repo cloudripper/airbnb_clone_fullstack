@@ -17,12 +17,12 @@ export const Hosting = (props) => {
                 <div className="d-flex justify-content-center justify-content-sm-left justify-content-lg-center flex-wrap mb-5 pb-3">
                     <Link to={`/hosting/${user.user_id}/listings`} className="text-decoration-none text-dark flex-item dashItem bg-light mx-2 px-2 py-2 my-2 my-md-0">
                         <p className="mx-auto" style={{ fontWeight: "700" }}>Listings</p>
-                        <p>Upcoming Bookings: --</p>
-                        <p>Total Properties Listed: --</p>
+                        <p className="ml-2">Add Listings</p>
+                        <p className="ml-2">View/Edit Listings</p>
                     </Link>
                     <Link to={`/hosting/${user.user_id}/bookings`} className="text-decoration-none text-dark flex-item dashItem bg-light mx-2 px-2 py-2 my-2 my-md-0">
                         <p className="mx-auto" style={{ fontWeight: "700" }}>Manage Bookings</p>
-                        <p>Calendar</p>
+                        <p className="ml-2">View All Bookings for <br/>All Listings</p>
                     </Link>
                 </div>
             </div>

@@ -24,7 +24,7 @@ export const AuthLayout = (props) => {
     if (userObj) {
       setUser(userObj.username)
       setIsHost((userObj.host_status) ? "Manage Listings" : "Become a Host")
-      setAvatar((userObj.image) ? <img id="thumbnail" src={`${userObj.image}`} />: <FontAwesomeIcon className="usrImg" icon={["far", "user-circle"]} />)
+      setAvatar((userObj.image.length != 0) ? <img id="thumbnail" src={`${userObj.image[1].image}`} />: <FontAwesomeIcon className="usrImg" icon={["far", "user-circle"]} />)
 
     } else {
       console.log("Layout User Error")
@@ -32,7 +32,7 @@ export const AuthLayout = (props) => {
   }, [])
 
   useEffect(() => {
-    setAvatar((userObj.image[0]) ? <img id="thumbnail" src={`${userObj.image[0].image}`} /> : <FontAwesomeIcon className="usrImg" icon={["far", "user-circle"]} />)
+    setAvatar((userObj.image.length != 0) ? <img id="thumbnail" src={`${userObj.image[1].image}`} /> : <FontAwesomeIcon className="usrImg" icon={["far", "user-circle"]} />)
   }, [user])
 
 
