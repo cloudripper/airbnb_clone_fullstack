@@ -64,8 +64,9 @@ export const BookingSuccess = (props) => {
         ).catch(error => console.log(error.message))
     } 
 
-    async function handleCancel(e) {
+    function handleCancel(e) {
         initiateStripeRefund(e.target.id)
+        
     }
 
     async function handlePayment(e) {

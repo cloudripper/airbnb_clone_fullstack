@@ -105,7 +105,7 @@ export const initiateStripeUpdate = async (booking_id) => {
       // Make the id field from the Checkout Session creation API response
       // available to this file, so you can provide it as parameter here
       // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
-      sessionId: response.session_id,
+      sessionId: response.charge.checkout_session_id,
     }).then((result) => {
       // If `redirectToCheckout` fails due to a browser or network
       // error, display the localized error message to your customer
@@ -129,7 +129,8 @@ export const initiateStripeRefund = async (booking_id) => {
   }))
     .then(handleErrors)
     .then(async response => {
-          return response
+      window.location= `/booking/${booking_id}/success`    
+      return response
     })
     .catch(error => {
       console.log(error);
