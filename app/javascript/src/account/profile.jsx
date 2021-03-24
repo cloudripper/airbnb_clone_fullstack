@@ -330,33 +330,35 @@ export const EditProfile = (props) => {
         <div className="container mt-4">
           <h3 className="mb-4">Edit Your Profile</h3>
           <p>{error}</p>
-          <form className="border bg-light px-5 py-4 styleContainer" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label >Username</label>
-              <input className="form-control form-control-lg" type="text" id="username" minLength="3" maxLength="64" placeholder="eg. DizzyDyer2 (must be unique)" onChange={handleChange} />
-              <small className="text-secondary" value='64'>Max 64 characters</small>
-            </div>    
-            <div className="row">
-              <div className="form-group col">
-                <label>First Name</label>
-                <input className="form-control" type="text" id="first_name" minLength="3" maxLength="35" placeholder="eg. Wayne" />
+          <div className="row mb-5 pb-3 px-3 px-md-0">
+            <form className="border bg-light px-5 py-4 styleContainer" onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label >Username</label>
+                <input className="form-control form-control-lg" type="text" id="username" minLength="3" maxLength="64" placeholder="eg. DizzyDyer2 (must be unique)" onChange={handleChange} />
+                <small className="text-secondary" value='64'>Max 64 characters</small>
+              </div>    
+              <div className="row">
+                <div className="form-group col">
+                  <label>First Name</label>
+                  <input className="form-control" type="text" id="first_name" minLength="3" maxLength="35" placeholder="eg. Wayne" />
+                </div>  
+                <div className="form-group col">
+                  <label>Last Name</label>
+                  <input className="form-control" type="text" id="last_name" minLength="1" maxLength="35" placeholder="eg. Dyer" />
+                </div>  
+              </div>
+              <div className="form-group col-4">
+                  <label>Phone</label>
+                  <input className="form-control" type="tel" name="phone" id="phone" minLength="8" maxLength="13" />
               </div>  
-              <div className="form-group col">
-                <label>Last Name</label>
-                <input className="form-control" type="text" id="last_name" minLength="1" maxLength="35" placeholder="eg. Dyer" />
-              </div>  
-            </div>
-            <div className="form-group col-4">
-                <label>Phone</label>
-                <input className="form-control" type="tel" name="phone" id="phone" minLength="8" maxLength="13" />
-            </div>  
-            <div className="form-group">
-              <label >Personal Bio/Description</label>
-              <textarea className="form-control" rows="5" id="bio" minLength="5" maxLength="2000" placeholder="Add a paragraph or two about yourself." onChange={handleChange} />
-              <small className="text-secondary" value='2000'>Max 2000 characters</small>
-            </div>
-            <button className="btn bg-dark text-light">Submit</button>
-          </form>
+              <div className="form-group">
+                <label >Personal Bio/Description</label>
+                <textarea className="form-control" rows="5" id="bio" minLength="5" maxLength="2000" placeholder="Add a paragraph or two about yourself." onChange={handleChange} />
+                <small className="text-secondary" value='2000'>Max 2000 characters</small>
+              </div>
+              <button className="btn bg-dark text-light">Submit</button>
+            </form>
+          </div>
         </div>
     )
 }
