@@ -5,7 +5,7 @@ import { DateRangePicker } from 'react-dates';
 import { safeCredentials, handleErrors } from '@utils/fetchHelper';
 import { Link } from 'react-router-dom';
 import { initiateStripeCheckout } from '@utils/tools';
-import { useAuth, AuthContext } from '@utils/authContext';
+import { AuthContext } from '@utils/authContext';
 
 
 import 'react-dates/lib/css/_datepicker.css';
@@ -28,14 +28,6 @@ class BookingWidget extends React.Component {
     this.setState({
       authenticated: user.authenticated
     })
-
-    //fetch('/api/authenticated')
-    //  .then(handleErrors)
-    //  .then(data => {
-    //    this.setState({
-    //      authenticated: data.authenticated,
-    //    })
-    //  })
     this.getPropertyBookings();
   }
   
@@ -100,7 +92,6 @@ class BookingWidget extends React.Component {
   
     const { price_per_night } = this.props;
   
-    // add the following
     let days;
     if (startDate && endDate) {
       days = endDate.diff(startDate, 'days');

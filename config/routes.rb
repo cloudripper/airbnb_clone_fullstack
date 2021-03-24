@@ -35,7 +35,7 @@ Rails.application.routes.draw do
     get '/user/charges' => 'charges#get_user_charges'
     delete '/sessions' => 'sessions#destroy'  
     delete '/charges/:booking_id' => 'charges#refund'
-    put '/charges/:booking_id' => 'charges#update'
+    post '/charges/:booking_id' => 'charges#create'
     delete '/booking/:booking_id' => 'bookings#destroy'  
     get '/host/properties/:user_id' => 'properties#get_user_properties'
     put '/users/host/:user_id' => 'users#host_update'

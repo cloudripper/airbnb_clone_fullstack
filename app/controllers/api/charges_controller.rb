@@ -13,7 +13,9 @@ module Api
         property = booking.property
         days_booked = (booking.end_date - booking.start_date).to_i
         amount = days_booked * property.price_per_night
-  
+        
+        booking.charges.none? || booking.charges.destroy_all
+
         session = Stripe::Checkout::Session.create(
           payment_method_types: ['card'],
           line_items: [{
@@ -26,15 +28,18 @@ module Api
           success_url: "#{ENV['URL']}/booking/#{booking.id}/success",
           cancel_url: "#{ENV['URL']}#{params[:cancel_url]}",
         )
-  
-        @charge = booking.charges.new({
-          checkout_session_id: session.id,
-          payment_intent: session.payment_intent,
-          currency: 'usd',
-          amount: amount,
-          status: "Pending",
-        })
-  
+
+        #booking.charges.none? || booking.charges.destroy
+          @charge = booking.charges.new({
+            checkout_session_id: session.id,
+            payment_intent: session.payment_intent,
+            currency: 'usd',
+            amount: amount,
+            status: "Pending",
+          })
+        
+
+
         if @charge.save
           render 'api/charges/create', status: :created
         else
@@ -98,7 +103,7 @@ module Api
             @charge.checkout_session_id
           )
 
-          if refund.status = 'succeeded'
+          if refund.status = 'succeeded' 
             render json: {
               success: true,
               status: :ok,
@@ -117,6 +122,7 @@ module Api
 
       def mark_complete
         # You can find your endpoint's secret in your webhook settings
+        
         endpoint_secret = ENV['STRIPE_MARK_COMPLETE_WEBHOOK_SIGNING_SECRET']
   
         payload = request.body.read
@@ -140,7 +146,7 @@ module Api
         # Handle the checkout.session.completed event
         if event['type'] == 'checkout.session.completed'
           session = event['data']['object']
-  
+            
           # Fulfill the purchase, mark related charge as complete
           @charge = Charge.find_by(checkout_session_id: session.id)
           @booking = Booking.find_by(charges: @charge)
@@ -152,7 +158,7 @@ module Api
             
           return head :ok
         end
-  
+        
         return head :bad_request
       end
 

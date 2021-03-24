@@ -1,12 +1,9 @@
 // property.jsx
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Layout from '@src/layout';
 import { handleErrors } from '@utils/fetchHelper';
 import { Link } from 'react-router-dom';
-
+import { Spinner } from '@utils/tools';
 import BookingWidget from './bookingWidget';
-
 import './property.scss';
 
 class Property extends React.Component {
@@ -33,13 +30,12 @@ class Property extends React.Component {
       image: (propObj.image.array) ? propObj.image.array[1].image : propObj.image.seed,
       loading: false,
     })
-    console.log("Property: ", this.state.property)
   }
 
   render () {
     const { property, loading } = this.state;
     if (loading) {
-      return <p>loading...</p>;
+      return <Spinner/>;
     };
 
     const {
@@ -59,7 +55,7 @@ class Property extends React.Component {
     } = property
 
     return (
-      <>
+      <div>
         <div className="property-image mb-3" style={{ backgroundImage: `url(${this.state.image})` }}>
           {(() => { 
             let imageSrc = ''
@@ -72,7 +68,7 @@ class Property extends React.Component {
           })()} 
         </div>
           <div className="container">
-            <div className="row">
+            <div className="row mb-5 pb-3">
               <div className="info col-12 col-lg-8">
                 <div className="mb-3">
                   <h3 className="mb-0">{title}</h3>
@@ -100,7 +96,7 @@ class Property extends React.Component {
               </div>
             </div>
         </div>
-      </>
+      </div>
     )
   }
 }
