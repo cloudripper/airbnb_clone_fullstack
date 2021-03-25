@@ -93,7 +93,7 @@ export const NewListing = (props) => {
                 </div>
                 <div className="form-group">
                     <label>Property Type</label>
-                    <select className="form-control w-50" type="text" id="addPropType" placeholder="" required >
+                    <select className="form-control w-75 w-50-md" type="text" id="addPropType" placeholder="" required >
                         <option>Apartment</option>
                         <option>House</option>
                         <option>Secondary Unit</option>
@@ -101,26 +101,26 @@ export const NewListing = (props) => {
                         <option>Bed and Breakfast</option>
                         <option>Boutique Hotel</option>
                     </select>
-                  </div>  
+                </div>  
+                <div className="form-group col-6 pl-0">
+                  <label>Price per night</label>
+                  <input className="form-control" type="number" min="0" max="99999" id="addPrice" placeholder="" required />
+                </div>  
                 <div className="row">
-                  <div className="form-group col">
-                    <label>Price per night</label>
-                    <input className="form-control" type="number" min="0" max="99999" id="addPrice" placeholder="" required />
-                  </div>  
-                  <div className="form-group col">
-                    <label>Max # of Guests</label>
+                  <div className="form-group col-6 col-md-3">
+                    <label>Max Guests</label>
                     <input className="form-control" type="number" min="0" max="19" id="addGuest" placeholder="" required />
                   </div>  
-                  <div className="form-group col">
-                    <label>Number of Bedrooms</label>
+                  <div className="form-group col-6 col-md-3">
+                    <label>Bedrooms</label>
                     <input className="form-control" type="number" min="0" max="19" id="addBedrooms" placeholder="" required />
                   </div>  
-                  <div className="form-group col">
-                    <label>Number of Beds</label>
+                  <div className="form-group col-6 col-md-3">
+                    <label>Total Beds</label>
                     <input className="form-control" type="number" min="0" max="19" id="addBeds" placeholder="" required />
                   </div>  
-                  <div className="form-group col">
-                    <label>Number of Bathrooms</label>
+                  <div className="form-group col-6 col-md-3">
+                    <label>Bathrooms</label>
                     <input className="form-control" type="number" min="0" max="19" id="addBaths" placeholder="" required />
                   </div>  
                 </div>

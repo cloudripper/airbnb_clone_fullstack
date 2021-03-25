@@ -86,39 +86,7 @@ module Api
           return render json: { status: 'not pending' }
         end
       end
-
-      def update 
-        token = cookies.signed[:airbnb_session_token]
-        session = Session.find_by(token: token)
-        return render json: { error: 'user not logged in' }, status: :unauthorized if !session
-  
-        @booking = Booking.find_by(id: params[:booking_id])
-        return render json: { error: 'cannot find booking' }, status: :not_found if not @booking
-
-        @charge = Charge.find_by(booking_id: params[:booking_id])
-        return render json: { error: 'cannot find charge' }, status: :not_found if not @charge
-
-        if @charge.status = 'Pending'
-          refund = Stripe::Checkout::Session.retrieve(
-            @charge.checkout_session_id
-          )
-
-          if refund.status = 'succeeded' 
-            render json: {
-              success: true,
-              status: :ok,
-              session_id: refund.id,
-            }
-          else 
-            render json: {
-              success: false 
-            }
-          end
-        else 
-          return render json: { status: 'not pending' }
-        end
-      end
-    
+   
 
       def mark_complete
         # You can find your endpoint's secret in your webhook settings

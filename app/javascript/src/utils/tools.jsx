@@ -129,8 +129,7 @@ export const initiateStripeRefund = async (booking_id) => {
   }))
     .then(handleErrors)
     .then(async response => {
-      window.location= `/booking/${booking_id}/success`    
-      return response
+      return response.success
     })
     .catch(error => {
       console.log(error);

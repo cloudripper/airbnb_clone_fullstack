@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { authenticate, fetchBooking, Spinner } from '@utils/tools';
 import { useHistory, Link } from 'react-router-dom';
-import { initiateStripeRefund, initiateStripeUpdate } from '@utils/tools';
+import { initiateStripeRefund, initiateStripeUpdate, destroyBooking } from '@utils/tools';
 import { handleErrors } from '@utils/fetchHelper';
 
 
@@ -34,12 +34,13 @@ export const BookingSuccess = (props) => {
         const today = Date.now()
         if (await booking) {
             const start = new Date(booking.start_date)
-            
             let switchStatus = ''
             setBookingStatus(booking.status)
             if (today < start) {
                 setUpcoming(true)
             }
+
+            setCheckOut(booking.end_date)
             setChargeStatus((!booking.charge_status) ? 'No payment' : booking.charge_status)
             setBooking(booking)
             setUser(auth.username)
@@ -64,8 +65,13 @@ export const BookingSuccess = (props) => {
         ).catch(error => console.log(error.message))
     } 
 
-    function handleCancel(e) {
-        initiateStripeRefund(e.target.id)
+    async function handleCancel(e) {
+        const bookingId = e.target.id
+        const refund = await initiateStripeRefund(bookingId)
+        const cancelBooking = (await refund) && await destroyBooking(bookingId)
+        if (await cancelBooking) {
+            window.location = `/booking/${bookingId}/success`  
+        }
         
     }
 
@@ -78,7 +84,7 @@ export const BookingSuccess = (props) => {
         return (
             <div className="container" key={key}>
             <div className="mt-4">
-                <p style={{ fontWeight: "700", fontSize: "1.5rem" }}>{bookingStatus}: 2 Nights in {booking.prop_city}, {booking.prop_country}</p>
+                <p style={{ fontWeight: "700", fontSize: "1.5rem" }}>{bookingStatus}: {daysBooked} Nights in {booking.prop_city}, {booking.prop_country}</p>
                 <div className="d-flex justify-content-between">
                     <p className="flex-item">Booked by: {user}</p>
                     <p className="flex-item">Order Status: {chargeStatus}</p>

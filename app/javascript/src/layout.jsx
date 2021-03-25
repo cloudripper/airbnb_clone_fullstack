@@ -61,8 +61,8 @@ export const AuthLayout = (props) => {
               </div>
           </nav>
           {props.children}
-          <footer  className="fixed-bottom">
-            <div id="footer" className="row px-3 py-1 p-sm-3 d-flex mt-5 bg-light">
+          <footer  className="custFooter fixed-bottom">
+            <div id="footer" className="row px-3 py-1 p-sm-3 d-flex bg-light">
               <p className="ml-3 mb-0 text-secondary">Airbnb Clone</p>
               <p className="ml-auto mr-3 mb-0 text-secondary"><small>VW Labs 2021</small></p>
             </div>
@@ -107,8 +107,8 @@ export const UnauthLayout = (props) => {
             })()} 
           </nav>
           {props.children}
-          <footer className="fixed-bottom">
-            <div id="footer" className="row px-3 py-1 p-sm-3 d-flex mt-5 bg-light">
+          <footer className="custFooter fixed-bottom">
+            <div id="footer" className="row px-3 py-1 p-sm-3 d-flex bg-light">
               <p className="ml-3 mb-0 text-secondary">Airbnb Clone</p>
               <p className="ml-auto mr-3 mb-0 text-secondary"><small>VW Labs 2021</small></p>
             </div>
