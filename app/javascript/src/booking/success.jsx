@@ -34,12 +34,13 @@ export const BookingSuccess = (props) => {
         const today = Date.now()
         if (await booking) {
             const start = new Date(booking.start_date)
-            
             let switchStatus = ''
             setBookingStatus(booking.status)
             if (today < start) {
                 setUpcoming(true)
             }
+
+            setCheckOut(booking.end_date)
             setChargeStatus((!booking.charge_status) ? 'No payment' : booking.charge_status)
             setBooking(booking)
             setUser(auth.username)
@@ -78,7 +79,7 @@ export const BookingSuccess = (props) => {
         return (
             <div className="container" key={key}>
             <div className="mt-4">
-                <p style={{ fontWeight: "700", fontSize: "1.5rem" }}>{bookingStatus}: 2 Nights in {booking.prop_city}, {booking.prop_country}</p>
+                <p style={{ fontWeight: "700", fontSize: "1.5rem" }}>{bookingStatus}: {daysBooked} Nights in {booking.prop_city}, {booking.prop_country}</p>
                 <div className="d-flex justify-content-between">
                     <p className="flex-item">Booked by: {user}</p>
                     <p className="flex-item">Order Status: {chargeStatus}</p>
