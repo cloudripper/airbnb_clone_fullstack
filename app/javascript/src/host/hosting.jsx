@@ -65,7 +65,7 @@ export const BecomeHost = (props) => {
     if (isAuth) {
         return (
             <div className="container">
-                <div className="row d-flex justify-content-center">
+                <div className="row d-flex justify-content-center mb-5 pb-3 px-3 px-md-0 ">
                     <h2 className="flex-item mt-5 font-weight-bold">Become a Host</h2>
                     <div className="flex-item border rounded py-4 px-5 mt-4 mb-5">
                         <form onSubmit={handleSubmit}>

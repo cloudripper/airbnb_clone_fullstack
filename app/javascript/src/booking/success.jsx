@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { authenticate, fetchBooking, Spinner } from '@utils/tools';
 import { useHistory, Link } from 'react-router-dom';
-import { initiateStripeRefund, initiateStripeUpdate } from '@utils/tools';
+import { initiateStripeRefund, initiateStripeUpdate, destroyBooking } from '@utils/tools';
 import { handleErrors } from '@utils/fetchHelper';
 
 
@@ -65,8 +65,13 @@ export const BookingSuccess = (props) => {
         ).catch(error => console.log(error.message))
     } 
 
-    function handleCancel(e) {
-        initiateStripeRefund(e.target.id)
+    async function handleCancel(e) {
+        const bookingId = e.target.id
+        const refund = await initiateStripeRefund(bookingId)
+        const cancelBooking = (await refund) && await destroyBooking(bookingId)
+        if (await cancelBooking) {
+            window.location = `/booking/${bookingId}/success`  
+        }
         
     }
 

@@ -347,7 +347,7 @@ export const EditProfile = (props) => {
                   <input className="form-control" type="text" id="last_name" minLength="1" maxLength="35" placeholder="eg. Dyer" />
                 </div>  
               </div>
-              <div className="form-group col-4">
+              <div className="form-group col-6 pl-0">
                   <label>Phone</label>
                   <input className="form-control" type="tel" name="phone" id="phone" minLength="8" maxLength="13" />
               </div>  

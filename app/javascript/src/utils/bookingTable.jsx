@@ -141,7 +141,7 @@ export const BookingTable = (props) => {
                         if (showBookings == "all") {
                             return (
                                 <tr key={bookingId} scope="row" onClick={handleClick} value={bookingId} className={statusAttr} >
-                                    <td>{item}</td>
+                                    <td className="pl-3">{item}</td>
                                     <td style={{ fontWeight: "600" }}>{(display == "Host") ? listing : city}</td>
                                     <td>{start}</td>
                                     <td>{end}</td>
@@ -149,8 +149,8 @@ export const BookingTable = (props) => {
                                     <td>{payStatus}</td>
                                     <td>{bookingStatus}</td>
                                     {(display == "Host") ? <td>${charge}</td> : null}
-                                    <td className="text-center noHover" id={`primBooking${bookingId}`} ><FontAwesomeIcon id="tableDelete" onClick={handleDelete} onMouseEnter={handleHoverOver} onMouseLeave={handleHoverOff}  type="button" icon={faTimesCircle} /></td>
-                                    <td className="text-center d-none" id={`secBooking${bookingId}`}><button onClick={handleDeleteConfirm} onMouseEnter={handleHoverOver} onMouseLeave={handleHoverOff} className='py-0 deleteBtns btn btn-sm btn-danger mr-2'>Confirm</button><button onClick={handleDeleteCancel} className='py-0 deleteBtns btn btn-sm btn-secondary'>Cancel</button></td>
+                                    <td className="text-center noHover pr-3" id={`primBooking${bookingId}`} ><FontAwesomeIcon id="tableDelete" onClick={handleDelete} onMouseEnter={handleHoverOver} onMouseLeave={handleHoverOff}  type="button" icon={faTimesCircle} /></td>
+                                    <td className="text-center d-none pr-3" id={`secBooking${bookingId}`}><button onClick={handleDeleteConfirm} onMouseEnter={handleHoverOver} onMouseLeave={handleHoverOff} className='py-0 deleteBtns btn btn-sm btn-danger mr-2'>Confirm</button><button onClick={handleDeleteCancel} className='py-0 deleteBtns btn btn-sm btn-secondary'>Cancel</button></td>
                                 </tr>
                             )
                         }
