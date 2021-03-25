@@ -10,5 +10,6 @@ json.bookings do
       json.status booking.status
       json.user booking.user
       json.username booking.user.username
+      json.user_id booking.user.id
     end 
   end

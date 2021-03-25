@@ -20,6 +20,12 @@ export const BookingTable = (props) => {
             const path = `/booking/${id}/success`    
             history.push(path)
         }
+        if (display == "Host") {
+            const id = e.target.parentElement.attributes[1].value
+            console.log(id)
+            const path = `/users/show/${id}`    
+            history.push(path)
+        }
     }
   
     async function handleDelete(e) {   
@@ -140,7 +146,7 @@ export const BookingTable = (props) => {
 
                         if (showBookings == "all") {
                             return (
-                                <tr key={bookingId} scope="row" onClick={handleClick} value={bookingId} className={statusAttr} >
+                                <tr key={bookingId} scope="row" onClick={handleClick} value={(display == "Host") ? booking.user_id : bookingId} className={statusAttr} >
                                     <td className="pl-3">{item}</td>
                                     <td style={{ fontWeight: "600" }}>{(display == "Host") ? listing : city}</td>
                                     <td>{start}</td>
@@ -163,7 +169,7 @@ export const BookingTable = (props) => {
                                         <td style={{ fontWeight: "600" }}>{(display == "Host") ? listing : city}</td>
                                         <td>{start}</td>
                                         <td>{end}</td>
-                                        {(display == "Host") ? <td>{guest}</td> : null}
+                                        {(display == "Host") ? <td id={booking.user_id}>{guest}</td> : null}
                                         <td>{payStatus}</td>
                                         <td>{bookingStatus}</td>
                                         {(display == "Host") ? <td>${charge}</td> : null}
