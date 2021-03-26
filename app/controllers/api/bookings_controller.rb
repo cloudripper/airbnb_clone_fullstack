@@ -1,6 +1,4 @@
 module Api
-
-
     class BookingsController < ApplicationController
       def create
         token = cookies.signed[:airbnb_session_token]
@@ -24,21 +22,19 @@ module Api
         return render json: { success: true } unless session
         
         @user = session.user
-        booking = Booking.find_by(id: params[:booking_id])
-        property = Property.find_by(id: booking.property_id)
+        @booking = Booking.find_by(id: params[:booking_id])
+        @property = Property.find_by(id: @booking.property_id)
 
-        if property.user.id == @user.id && booking.destroy
+        if property.user.id == @user.id && @booking.destroy
           render json: {  
             success: true,
             source: "Host",
-            user: @user.id,
             status: :ok,
           }
-        elsif booking.user_id == @user.id && booking.destroy
+        elsif @booking.user_id == @user.id && @booking.destroy
           render json: {
             success: true,
             source: "Guest",
-            user: @user.id,
             status: :ok,
           }
         else 
