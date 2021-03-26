@@ -28,14 +28,15 @@ export const BookingTable = (props) => {
   
     async function handleDelete(e) {   
         e.stopPropagation()
-        const bookingId = $(e.target).closest("tr").attr("value")
+        const bookingId = $(e.target).closest("tr").attr("id")
+        console.log(bookingId)
         $(`#primBooking${bookingId}`).addClass("d-none")
         $(`#secBooking${bookingId}`).removeClass("d-none")
     }
 
     async function handleDeleteConfirm(e) {
         e.stopPropagation()
-        const bookingId = $(e.target).closest("tr").attr("value")
+        const bookingId = $(e.target).closest("tr").attr("id")
 
         if (display == "Guest") {
             const refund = await initiateStripeRefund(bookingId)
@@ -56,7 +57,7 @@ export const BookingTable = (props) => {
     
     async function handleDeleteCancel(e) {
         e.stopPropagation()
-        const bookingId = $(e.target).closest("tr").attr("value")
+        const bookingId = $(e.target).closest("tr").attr("id")
         $(`#primBooking${bookingId}`).removeClass("d-none")
         $(`#secBooking${bookingId}`).addClass("d-none")
     }
@@ -143,7 +144,7 @@ export const BookingTable = (props) => {
 
                         if (showBookings == "all") {
                             return (
-                                <tr key={bookingId} scope="row" onClick={handleClick} value={(display == "Host") ? booking.user_id : bookingId} className={statusAttr} >
+                                <tr key={bookingId} scope="row" id={bookingId} onClick={handleClick} value={(display == "Host") ? booking.user_id : bookingId} className={statusAttr} >
                                     <td className="pl-3">{item}</td>
                                     <td style={{ fontWeight: "600" }}>{(display == "Host") ? listing : city}</td>
                                     <td>{start}</td>
@@ -171,7 +172,7 @@ export const BookingTable = (props) => {
                                         <td>{bookingStatus}</td>
                                         {(display == "Host") ? <td>${charge}</td> : null}
                                         <td className="text-center noHover" id={`primBooking${bookingId}`} ><FontAwesomeIcon id="tableDelete" onClick={handleDelete} onMouseEnter={handleHoverOver} onMouseLeave={handleHoverOff}  type="button" icon={faTimesCircle} /></td>
-                                    <td className="text-center d-none" id={`secBooking${bookingId}`}><button onClick={handleDeleteConfirm} onMouseEnter={handleHoverOver} onMouseLeave={handleHoverOff} className='py-0 deleteBtns btn btn-sm btn-danger mr-2'>Confirm</button><button onClick={handleDeleteCancel} className='py-0 deleteBtns btn btn-sm btn-secondary'>Cancel</button></td>
+                                        <td className="text-center d-none" id={`secBooking${bookingId}`}><button onClick={handleDeleteConfirm} onMouseEnter={handleHoverOver} onMouseLeave={handleHoverOff} className='py-0 deleteBtns btn btn-sm btn-danger mr-2'>Confirm</button><button onClick={handleDeleteCancel} className='py-0 deleteBtns btn btn-sm btn-secondary'>Cancel</button></td>
                                     </tr>
                                 )
                             }   

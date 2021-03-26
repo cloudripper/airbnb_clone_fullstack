@@ -33,7 +33,8 @@ export async function destroyBooking(id) {
   }))
   .then(handleErrors)
   .then(data => { 
-      return data
+      console.log("Response: ", data)
+      return data.success
   }).catch(error => console.log("Error: ", error))   
 }
 
