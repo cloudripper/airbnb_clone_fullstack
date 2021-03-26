@@ -48,7 +48,7 @@ module Api
           }
         elsif
           property.user.id == user.id && booking.destroy
-          render json: {
+          render json: {  
             success: true,
             source: "Host",
             user: user.id,
