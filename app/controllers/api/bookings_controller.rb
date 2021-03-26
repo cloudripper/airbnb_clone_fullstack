@@ -21,24 +21,24 @@ module Api
       def destroy 
         token = cookies.signed[:airbnb_session_token]
         session = Session.find_by(token: token)
-        return render json: { success: false } unless session
+        return render json: { success: true } unless session
         
-        user = session.user
+        @user = session.user
         booking = Booking.find_by(id: params[:booking_id])
         property = Property.find_by(id: booking.property_id)
 
-        if booking.user_id == user.id && booking.destroy
+        if booking.user_id == @user.id && booking.destroy
           render json: {
             success: true,
             source: "Guest",
-            user: user.id,
+            user: @user.id,
             status: :ok,
           }
-        elsif property.user.id == user.id && booking.destroy
+        elsif property.user.id == @user.id && booking.destroy
           render json: {  
             success: true,
             source: "Host",
-            user: user.id,
+            user: @user.id,
             status: :ok,
           }
         else 

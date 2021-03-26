@@ -26,7 +26,6 @@ Rails.application.routes.draw do
     put '/users/update/avatar/:user_id' => 'users#img_update'
     put '/users/update/:user_id' => 'users#update'
     get '/bookings/:user_id' => 'bookings#get_user_bookings'
-    get '/bookings/:user_id' => 'bookings#get_user_bookings'
     get '/bookings/:user_id/:id' => 'bookings#get_booking'
     post '/properties/:user_id' => 'properties#create'
     put '/properties/:id/update/img' => 'properties#img_update'
