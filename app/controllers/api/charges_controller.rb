@@ -29,7 +29,6 @@ module Api
           cancel_url: "#{ENV['URL']}#{params[:cancel_url]}",
         )
 
-        #booking.charges.none? || booking.charges.destroy
           @charge = booking.charges.new({
             checkout_session_id: session.id,
             payment_intent: session.payment_intent,

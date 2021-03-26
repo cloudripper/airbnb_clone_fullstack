@@ -42,7 +42,9 @@ export const BookingTable = (props) => {
             const refund = await initiateStripeRefund(bookingId)
             if (await refund) {
                 const booking = await destroyBooking(bookingId)    
-                handleBookings()
+                if (await booking) {
+                    handleBookings()
+                }
             }
         }
         
@@ -50,7 +52,9 @@ export const BookingTable = (props) => {
             const refund = await initiateStripeRefund(bookingId)
             if (await refund) {
                 const booking = await destroyBooking(bookingId)    
-                handleBookings()
+                if (await booking) {
+                    handleBookings()
+                }
             }
         }
     }
