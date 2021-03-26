@@ -27,11 +27,9 @@ export async function fetchUser(userId) {
 
 export async function destroyBooking(id) {
   const url = "/api/booking/" + id
-  const apiRequest = {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
   }
-  return await fetch(url, safeCredentials(apiRequest))
+  return await fetch(url, safeCredentials({ method: 'DELETE',
+  }))
   .then(handleErrors)
   .then(data => { 
       return data.success
