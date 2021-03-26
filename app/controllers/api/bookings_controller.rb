@@ -34,8 +34,7 @@ module Api
             user: user.id,
             status: :ok,
           }
-        elsif
-          property.user.id == user.id && booking.destroy
+        elsif property.user.id == user.id && booking.destroy
           render json: {  
             success: true,
             source: "Host",
@@ -44,7 +43,7 @@ module Api
           }
         else 
           render json: {
-            success: true,
+            success: false,
             message: "Booking Auth failed"
           }
         end
