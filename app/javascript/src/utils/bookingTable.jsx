@@ -21,7 +21,6 @@ export const BookingTable = (props) => {
             history.push(path)
         }
         if (display == "Host") {
-            console.log(id)
             const path = `/users/show/${id}`    
             history.push(path)
         }
@@ -40,9 +39,7 @@ export const BookingTable = (props) => {
 
         if (display == "Guest") {
             const refund = await initiateStripeRefund(bookingId)
-            console.log(refund)
             if (await refund) {
-                console.log(refund)
                 const booking = await destroyBooking(bookingId)    
                 handleBookings()
             }
@@ -82,7 +79,6 @@ export const BookingTable = (props) => {
     function showAll() {
         setShowBookings("all")
         setKey(Math.random())
-        console.log(bookings)
     }
 
     function showUpcoming() {

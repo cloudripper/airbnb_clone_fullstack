@@ -18,18 +18,6 @@ module Api
         end
       end
 
-      def update
-        token = cookies.signed[:airbnb_session_token]
-        session = Session.find_by(token: token)
-        return render json: { success: false } unless session
-
-        user = session.user
-        @booking = user.bookings.find_by(id: params[:id])
-        return render json: { error: 'cannot find booking' }, status: :not_found if not @booking
-        return render 'bad_request', status: :bad_request if not @booking.update(booking_params)
-        render 'api/bookings/show'
-      end
-
       def destroy 
         token = cookies.signed[:airbnb_session_token]
         session = Session.find_by(token: token)
