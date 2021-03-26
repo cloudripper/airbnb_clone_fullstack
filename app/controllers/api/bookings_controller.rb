@@ -44,7 +44,7 @@ module Api
           }
         else 
           render json: {
-            success: false,
+            success: true,
             message: "Booking Auth failed"
           }
         end
