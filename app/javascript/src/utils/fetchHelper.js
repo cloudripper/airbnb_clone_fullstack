@@ -51,6 +51,6 @@ export function jsonHeader(options = {}) {
     return Object.assign(options, {
       credentials: 'include',
       mode: 'same-origin',
-      headers: Object.assign(authenticityHeader()),
+      headers: Object.assign((options.headers || {}), authenticityHeader()),
     });
   }

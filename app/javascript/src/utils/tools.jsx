@@ -27,13 +27,12 @@ export async function fetchUser(userId) {
 
 export async function destroyBooking(id) {
   const url = `/api/booking/` + id
-  return await fetch(url, safeCredentials({
+  return await fetch(url, safeImgCredentials({
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
   }))
   .then(handleErrors)
   .then(data => { 
-      console.log("Response: ", data)
       return data.success
   }).catch(error => console.log("Error: ", error))   
 }
