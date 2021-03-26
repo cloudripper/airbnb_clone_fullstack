@@ -37,7 +37,7 @@ class BookingWidget extends React.Component {
       .then(data => {
         console.log(data);
         this.setState({
-          existingBookings: data.bookings,
+          existingBookings: data.bookings.filter(booking => booking.status != "Cancelled"),
         })
       })
   }

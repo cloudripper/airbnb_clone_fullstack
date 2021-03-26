@@ -68,7 +68,7 @@ export const BookingSuccess = (props) => {
     async function handleCancel(e) {
         const bookingId = e.target.id
         const refund = await initiateStripeRefund(bookingId)
-        const cancelBooking = (await refund) && await destroyBooking(bookingId)
+        const cancelBooking = (await refund) && (await destroyBooking(bookingId))
         if (await cancelBooking) {
             window.location = `/booking/${bookingId}/success`  
         }

@@ -15,13 +15,12 @@ export const BookingTable = (props) => {
     const history = useHistory()
 
     function handleClick(e) {   
+        const id = e.target.parentElement.attributes[1].value
         if (display == "Guest") {
-            const id = e.target.parentElement.attributes[1].value
             const path = `/booking/${id}/success`    
             history.push(path)
         }
         if (display == "Host") {
-            const id = e.target.parentElement.attributes[1].value
             console.log(id)
             const path = `/users/show/${id}`    
             history.push(path)
@@ -41,7 +40,9 @@ export const BookingTable = (props) => {
 
         if (display == "Guest") {
             const refund = await initiateStripeRefund(bookingId)
-            if (await refund.success) {
+            console.log(refund)
+            if (await refund) {
+                console.log(refund)
                 const booking = await destroyBooking(bookingId)    
                 handleBookings()
             }
@@ -49,7 +50,7 @@ export const BookingTable = (props) => {
         
         if (display == "Host") {
             const refund = await initiateStripeRefund(bookingId)
-            if (await refund.success) {
+            if (await refund) {
                 const booking = await destroyBooking(bookingId)    
                 handleBookings()
             }

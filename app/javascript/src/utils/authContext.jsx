@@ -59,7 +59,6 @@ export function handleLogout(e, props) {
     }))
       .then(handleErrors)
       .then(data => {
-        console.log(data);
         if (data.success) {
         window.location = '/';
         console.log("Logout complete");
