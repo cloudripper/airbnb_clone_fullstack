@@ -25,7 +25,7 @@ module Api
         @booking = Booking.find_by(id: params[:booking_id])
         @property = Property.find_by(id: @booking.property_id)
 
-        if property.user.id == @user.id && @booking.destroy
+        if @property.user.id == @user.id && @booking.destroy
           render json: {  
             success: true,
             source: "Host",
