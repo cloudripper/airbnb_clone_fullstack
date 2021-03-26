@@ -1,7 +1,7 @@
 class Booking < ApplicationRecord
     belongs_to :user
     belongs_to :property
-    has_many :charges
+    has_many :charges, dependent: :delete_all
   
     validates :start_date, presence: true
     validates :end_date, presence: true
