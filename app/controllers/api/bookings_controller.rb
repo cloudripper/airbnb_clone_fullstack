@@ -23,7 +23,9 @@ module Api
         
         @user = session.user
         @booking = Booking.find_by(id: params[:booking_id])
+        return render json: { error: 'cannot find booking' }, status: :not_found if !@booking
         @property = Property.find_by(id: @booking.property_id)
+        return render json: { error: 'cannot find property' }, status: :not_found if !@property
 
         if @property.user.id == @user.id && Booking.destroy(params[:booking_id])
           render json: {  
