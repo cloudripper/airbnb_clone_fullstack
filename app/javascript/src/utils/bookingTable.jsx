@@ -166,7 +166,7 @@ export const BookingTable = (props) => {
                         if (showBookings == "upcoming") {
                             if (today < startDate && bookingStatus !== "Cancelled")  {
                                 return (
-                                    <tr key={bookingId} scope="row" onClick={handleClick} value={bookingId} className={statusAttr} >
+                                    <tr key={bookingId} scope="row" id={bookingId} onClick={handleClick} value={(display == "Host") ? booking.user_id : bookingId} className={statusAttr} >
                                         <td>{item}</td>
                                         <td style={{ fontWeight: "600" }}>{(display == "Host") ? listing : city}</td>
                                         <td>{start}</td>
